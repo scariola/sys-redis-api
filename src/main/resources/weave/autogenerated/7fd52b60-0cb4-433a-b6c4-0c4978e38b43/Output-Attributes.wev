@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_7fd52b60_0cb4_433a_b6c4_0c4978e38b43_Output_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {| "X-Correlation-ID": String |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| msisdn: String |}, 
+  version: String, 
+  localAddress: String
+|}
+
