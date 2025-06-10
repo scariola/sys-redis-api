@@ -47,6 +47,13 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
+			<groupId>19504067-e1e3-45dd-943a-e163098ddbed</groupId>
+			<artifactId>sys-redis-api</artifactId>
+			<version>1.0.2</version>
+			<classifier>raml</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-apikit-module</artifactId>
 			<version>1.11.2</version>
@@ -57,13 +64,6 @@
 			<artifactId>mule-redis-connector</artifactId>
 			<version>5.4.7</version>
 			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
-			<groupId>19504067-e1e3-45dd-943a-e163098ddbed</groupId>
-			<artifactId>sys-redis-api</artifactId>
-			<version>1.0.4</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
 		</dependency>
 	</dependencies>
 
