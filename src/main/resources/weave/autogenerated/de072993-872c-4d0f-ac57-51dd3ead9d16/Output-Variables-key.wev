@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_de072993_872c_4d0f_ac57_51dd3ead9d16_Output_Variables_key = Any
+

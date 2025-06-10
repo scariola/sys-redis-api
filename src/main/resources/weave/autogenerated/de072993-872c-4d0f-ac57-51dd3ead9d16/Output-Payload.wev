@@ -1,0 +1,13 @@
+%dw 2.0
+
+type auto_de072993_872c_4d0f_ac57_51dd3ead9d16_Output_Payload = {
+  "x-event-msg": String, 
+  Results: {
+    "brand-name": String, 
+    "brand-id": String, 
+    _?: Any
+  }, 
+  "x-event-code": Number, 
+  _?: Any
+}
+

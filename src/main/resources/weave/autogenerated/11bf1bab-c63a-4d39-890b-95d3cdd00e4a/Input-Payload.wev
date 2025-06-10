@@ -1,0 +1,7 @@
+%dw 2.0
+
+type auto_11bf1bab_c63a_4d39_890b_95d3cdd00e4a_Input_Payload = {
+  state: "0" | "1" & Number, 
+  _?: Any
+}
+

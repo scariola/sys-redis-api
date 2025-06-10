@@ -1,0 +1,8 @@
+%dw 2.0
+
+type auto_73b677c1_9593_4c79_a1ea_b605e94267d1_Output_Payload = {
+  "x-event-msg": String, 
+  "x-event-code": Number, 
+  _?: Any
+}
+

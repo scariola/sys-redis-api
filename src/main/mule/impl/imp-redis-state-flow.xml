@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="get-redis-state-flow" doc:id="a75a357b-f984-4cf3-a83d-3ea0159ea189" >
+		<set-variable value="#['spectre-freefb-' ++ attributes.uriParams.'msisdn']" doc:name="Set Redis Cache Key" doc:id="2f45186c-320b-45f7-8020-28f350f7aa52" variableName="redis-key"/>
+		<flow-ref doc:name="get-redis-cache" doc:id="4189eaa9-edaa-4d49-94fd-a0040e383afa" name="get-redis-cache"/>
+		<choice doc:name="Choice" doc:id="c6f7aab2-e8a8-4beb-a623-76b9a4bb6972" >
+			<when expression="#[sizeOf(payload) &gt; 0]">
+				<ee:transform doc:name="Transform Message" doc:id="071da78e-e242-44eb-b2f2-65a5a77a5a42" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var result = read(payload,'application/json')
+---
+{
+  "x-event-code": 1005,
+  "x-event-msg": "Success",
+  "Results":{
+      "msisdn": result.msisdn,
+      "state":  result.state,
+  }
+}
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise>
+				<logger level="INFO" doc:name="Logger" doc:id="276ba1c7-c22f-4124-a1f3-3111b36f59a6" />
+			</otherwise>
+		</choice>
+	</flow>
+	<flow name="put-redis-state-flow" doc:id="11bf1bab-c63a-4d39-890b-95d3cdd00e4a" >
+		<ee:transform doc:name="Transform Message" doc:id="c019bffa-ead4-4f87-ad14-0313fb2beb33" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="redis-key" ><![CDATA['spectre-freefb-' ++ payload.msisdn]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="get-redis-cache" doc:id="f3de23ad-03b3-4b07-a095-f55f69ce8640" name="set-redis-cache" />
+		<choice doc:name="Choice" doc:id="e8d50d2e-0747-44f7-a29d-d575fa2c5003" >
+			<when expression="#[payload == 'OK']" >
+				<ee:transform doc:name="Transform Message" doc:id="d830f385-015f-4f02-86b2-4c855eaa760a" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+ "x-event-code": 1002,
+ "x-event-msg": "State Updated Successfully!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="e4936eb4-008a-42d8-901f-6439c3569450" />
+			</otherwise>
+		</choice>
+	</flow>
+
+</mule>
