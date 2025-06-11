@@ -7,10 +7,6 @@
         http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
 	<error-handler name="sys-redis-api_Shared_Error_Handler">
-	
-		
-		
-
 
 		<on-error-propagate type="APIKIT:BAD_REQUEST">
 			<ee:transform>

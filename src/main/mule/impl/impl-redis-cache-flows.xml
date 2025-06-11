@@ -8,20 +8,13 @@
 	xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<configuration doc:name="Configuration"
-		doc:id="4bd673a3-36c0-4ae3-b6ad-20cb88633db2"
-		defaultErrorHandler-ref="sys-redis-api_Shared_Error_Handler" />
-	<flow name="get-redis-cache-flow"
-		doc:id="de072993-872c-4d0f-ac57-51dd3ead9d16">
-		<flow-ref doc:name="get-redis-cache"
-			doc:id="cdd05ae3-464b-46cf-a86a-f47d57d06384" name="get-redis-cache" />
-		<choice doc:name="Choice"
-			doc:id="6b936c47-7da7-4cda-8d9b-da0021d6a7de">
-			<when expression="#[sizeOf(payload) &gt; 0]">
-				<ee:transform doc:name="Transform Message"
-					doc:id="e7db7c62-7c05-42e3-bf55-5749819faf58">
-					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
+	<flow name="get-redis-cache-flow" doc:id="7b6e8c05-697b-44e3-8661-c5735c1c5fa0">
+    <flow-ref doc:name="get-redis-cache" doc:id="887d86b8-bf5b-47f3-9228-52a5578660f6" name="get-redis-cache" />
+    <choice doc:name="Choice" doc:id="c97238b6-1a84-4eaf-9006-79c093b85817">
+        <when expression="#[!isEmpty(payload)]">
+            <ee:transform doc:name="Transform Message" doc:id="6ac1b978-e34d-4518-b4ea-94315fa41eb7">
+                <ee:message>
+                    <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 var result = read(payload,'application/json')
 ---
@@ -29,71 +22,61 @@ var result = read(payload,'application/json')
   "x-event-code": 1005,
   "x-event-msg": "Success",
   "Results": result
-}
-]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-			</when>
-			<otherwise>
-				<logger level="INFO" doc:name="Logger"
-					doc:id="6e87eaa9-bc23-4674-8989-7d3fafb34361"
-					message="Redis key not exist!" />
-				<raise-error doc:name="REDIS:KEY_NOT_FOUND"
-					doc:id="6f40a5fc-b0af-4f37-839b-d097dfab06bd"
-					type="REDIS:KEY_NOT_FOUND" />
-			</otherwise>
-		</choice>
-	<on-error-continue type="REDIS:KEY_NOT_FOUND"
-			logException="false" enableNotifications="true">
-			<ee:transform>
-				<ee:message>
-					<ee:set-payload resource="dw/redis-not-found.dwl" />
-				</ee:message>
-			</ee:transform>
-			<set-variable variableName="httpStatus" value="404" />
-		</on-error-continue>
+}]]></ee:set-payload>
+                </ee:message>
+            </ee:transform>
+        </when>
+        <otherwise>
+            <logger level="INFO" doc:name="Logger" doc:id="72b6043e-17f9-41ae-8a48-4770dddf16c4" message="Redis key not exist!" />
+            <raise-error doc:name="REDIS:KEY_NOT_FOUND" doc:id="e45ddd3b-849b-46c4-ab45-d5c527c5e687" type="CUSTOM_REDIS :KEY_NOT_FOUND" description="#['Key Not Found']"/>
+        </otherwise>
+    </choice>
 
+    <error-handler>
+        <on-error-continue type="CUSTOM_REDIS :KEY_NOT_FOUND" logException="false" enableNotifications="true">
+            <ee:transform>
+                <ee:message>
+                    <ee:set-payload resource="dw/redis-not-found.dwl" />
+                </ee:message>
+            </ee:transform>
+            <set-variable variableName="httpStatus" value="404" />
+        </on-error-continue>
+    </error-handler>
+</flow>
 
-	</flow>
-	<flow name="create-update-redis-cache-flow"
-		doc:id="52457c54-4ba0-40d1-b6b7-a1ef9df601de">
-		<flow-ref doc:name="get-redis-cache"
-			doc:id="3348da45-6c12-4998-bfed-bf97b4de97e9" name="set-redis-cache" />
-		<choice doc:name="Choice"
-			doc:id="900c282a-2e54-4acf-8712-99b8336378b5">
-			<when expression="#[payload == 'OK']">
-				<ee:transform doc:name="Transform Message"
-					doc:id="08f38691-cf56-436c-8e97-8d6765865e29">
-					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
+	<flow name="create-update-redis-cache-flow" doc:id="125d5e40-7662-4b46-97e8-dc2cf16635f1">
+    <flow-ref doc:name="get-redis-cache" doc:id="9601088d-6370-455a-856a-2cf95519fcec" name="set-redis-cache" />
+    <choice doc:name="Choice" doc:id="94520b26-5e81-479a-bfaa-7ccb45acc030">
+        <when expression="#[payload == 'OK']">
+            <ee:transform doc:name="Transform Message" doc:id="5bee3877-036e-40a5-bf85-03922a24a29c">
+                <ee:message>
+                    <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
  "x-event-code": 1002,
  "x-event-msg": "Cache Bridge Successful!"
 }]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-			</when>
-			<otherwise>
-				<logger level="INFO" doc:name="Logger"
-					doc:id="674e065b-482b-4baf-ac15-09a0dcd3fe12"
-					message="Failed to Update!" />
-				<raise-error doc:name="REDIS:CONNECTIVITY"
-					doc:id="669ed14d-d08d-43d2-925f-8b7b87c68bdf"
-					type="REDIS:CONNECTIVITY" />
-			</otherwise>
-		</choice>
-				<on-error-propagate type="REDIS:CONNECTIVITY"
-			logException="false" enableNotifications="true">
-			<ee:transform>
-				<ee:message>
-					<ee:set-payload resource="dw/redis-connection-failed.dwl" />
-				</ee:message>
-			</ee:transform>
-			<set-variable variableName="httpStatus" value="500" />
-		</on-error-propagate>
+                </ee:message>
+            </ee:transform>
+        </when>
+        <otherwise>
+            <logger level="INFO" doc:name="Logger" doc:id="d254a32b-6e9c-4b88-b299-673ffbe6c92a" message="Failed to Update!" />
+            <raise-error doc:name="REDIS:CONNECTIVITY" doc:id="7a86f316-a571-41af-be05-ea915c2edeaa" type="CUSTOM_REDIS :CONNECTIVITY" />
+        </otherwise>
+    </choice>
 
-	</flow>
+    <error-handler>
+        <on-error-propagate type="CUSTOM_REDIS :CONNECTIVITY" logException="false" enableNotifications="true">
+            <ee:transform>
+                <ee:message>
+                    <ee:set-payload resource="dw/redis-connection-failed.dwl" />
+                </ee:message>
+            </ee:transform>
+            <set-variable variableName="httpStatus" value="500" />
+        </on-error-propagate>
+    </error-handler>
+</flow>
+
 
 </mule>
