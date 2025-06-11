@@ -29,33 +29,37 @@
 			</http:error-response>
 		</http:listener>
 		<apikit:router config-ref="sys-redis-api-config" />
-		
+		<error-handler ref="sys-redis-api_Shared_Error_Handler" />
+
 	</flow>
 	<flow
 		name="put:\redis\state\(msisdn):application\json:sys-redis-api-config">
 		<logger level="INFO" doc:name="Logger"
 			doc:id="8722aed7-da6b-4901-a9d4-3ec1097171e9" message="Start" />
+		<set-variable value="#['spectre-freefb-' ++ payload.msisdn]" doc:name="Set Cache Key" doc:id="d3fe09e7-db7c-4c8b-8d5a-023cdb568e31" variableName="redis-key"/>
 		<flow-ref doc:name="Flow Reference"
 			doc:id="d89a55e1-3393-49ff-8ea8-ad32d8f067c0"
-			name="put-redis-state-flow" />
+			name="create-update-redis-cache-flow" />
 		<logger level="INFO" doc:name="Logger1"
 			doc:id="3f4e0b6c-dc9c-492d-8e14-4af87ecebc40" message="End" />
 	</flow>
 	<flow name="get:\redis\state\(msisdn):sys-redis-api-config">
 		<logger level="INFO" doc:name="Logger1"
 			doc:id="a4ada2af-ce8b-4f28-969e-352bcd2f9a5b" message="Start" />
+		<set-variable value="#['spectre-freefb-' ++ attributes.uriParams.'msisdn']" doc:name="Set Cache Key" doc:id="ca98cdcf-d9c9-4606-8ea2-c1ee470fe924" variableName="redis-key" />
 		<flow-ref doc:name="Flow Reference"
 			doc:id="b8b48081-04a9-4d52-96f2-d84a24020ae8"
-			name="get-redis-state-flow" />
+			name="get-redis-cache-flow" />
 		<logger level="INFO" doc:name="Logger"
 			doc:id="2ffc0581-9f52-4c4c-bb19-0d2961fdf2be" message="End" />
 	</flow>
 	<flow name="get:\redis\brand\(prefix):sys-redis-api-config">
 		<logger level="INFO" doc:name="Logger"
 			doc:id="293cbeae-b5f3-4416-87e7-3e427ca33888" message="Start" />
+		<set-variable value="#['bridge-' ++ attributes.uriParams.'prefix']" doc:name="Set Cache Key" doc:id="1e2e06f8-b5bc-483d-81c0-d3a5d5aff04e" variableName="redis-key" />
 		<flow-ref doc:name="get-redis-brand-flow"
 			doc:id="f1dce388-f774-422e-8ebd-4cbc996adf84"
-			name="get-redis-brand-flow" />
+			name="get-redis-cache-flow" />
 		<logger level="INFO" doc:name="Logger"
 			doc:id="2a7f1529-e659-4ce4-8ab4-e4fcd3f8ca82" message="End" />
 	</flow>
@@ -63,9 +67,10 @@
 		name="post:\redis\brand:application\json:sys-redis-api-config">
 		<logger level="INFO" doc:name="Logger"
 			doc:id="1cdddd0d-da0f-4155-9059-4ac38d3807ad" message="Start" />
+		<set-variable value="#['bridge-' ++ payload.prefix]" doc:name="Set Cache Key" doc:id="0a1d445e-86a4-4fc9-a432-434ce70e846a" variableName="redis-key" />
 		<flow-ref doc:name="post-redis-brand-flow"
 			doc:id="fceb4e78-3ca2-41d3-b6b4-77a532756af7"
-			name="post-redis-brand-flow" />
+			name="create-update-redis-cache-flow" />
 		<logger level="INFO" doc:name="Logger1"
 			doc:id="01aa6a21-386b-4133-af53-9a36b4d3b3dc" message="End" />
 	</flow>
