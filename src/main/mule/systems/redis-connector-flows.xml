@@ -8,23 +8,18 @@
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/redis/current/mule-redis.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<redis:redis-config name="Redis_Redis"
-		doc:name="Redis Redis" doc:id="9bbacb5a-3015-4d8b-b62c-9a30e8783a12">
-		<redis:nonclustered-connection
-			host="redis-12613.c292.ap-southeast-1-1.ec2.redns.redis-cloud.com"
-			port="12613" password="Kzh6vCaj09I8FCbO9t5engeAONe3OkOy" />
-	</redis:redis-config>
-	<sub-flow name="set-redis-cache"
+
+	<sub-flow name="set-redis-cache-subflow"
 		doc:id="73b677c1-9593-4c79-a1ea-b605e94267d1">
 		<redis:set doc:name="Set Redis Cache"
 			doc:id="2bedc43a-3c8c-4801-8914-6a5028865c86"
-			config-ref="Redis_Redis" key="#[vars.'redis-key']">
+			config-ref="Redis_Config_sys-redis-api" key="#[vars.'redis-key']">
 			<redis:value><![CDATA[#[%dw 2.0
 output application/java
 ---
 write(payload, "application/json")]]]></redis:value>
 		</redis:set>
-		<ee:transform doc:name="Transform Message"
+		<ee:transform doc:name="Set Payload Response"
 			doc:id="702ca1ad-1492-4ee5-b8a6-44568e6a2395">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
@@ -34,11 +29,15 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
-	<sub-flow name="get-redis-cache" doc:id="15457625-e058-48eb-9d3c-de39a309af6f" >
-		<redis:get doc:name="Get Redis Cache" doc:id="b9db12b8-797d-47c1-af9d-74a680bb42d9" config-ref="Redis_Redis" key="#[vars.'redis-key']" />
-		<ee:transform doc:name="Transform Message" doc:id="cc00e16e-7911-4460-86a7-77ad2100b762" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+	<sub-flow name="get-redis-cache-subflow"
+		doc:id="15457625-e058-48eb-9d3c-de39a309af6f">
+		<redis:get doc:name="Get Redis Cache"
+			doc:id="b9db12b8-797d-47c1-af9d-74a680bb42d9"
+			config-ref="Redis_Config_sys-redis-api" key="#[vars.'redis-key']" />
+		<ee:transform doc:name="Set Payload Response"
+			doc:id="cc00e16e-7911-4460-86a7-77ad2100b762">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 payload]]></ee:set-payload>
