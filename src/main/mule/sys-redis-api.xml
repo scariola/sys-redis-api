@@ -6,7 +6,7 @@
 	xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-
+	
 	<flow name="sys-redis-api-main">
 		<http:listener
 			config-ref="HTTP_Listener_Config_sys_redis_api"
@@ -21,7 +21,7 @@
 				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
 			</http:error-response>
 		</http:listener>
-		<apikit:router config-ref="APIKIT_Config_sys-redis-api" />
+		<apikit:router config-ref="sys-redis-api-config" />
 		<error-handler ref="sys-redis-api_Shared_Error_Handler" />
 	</flow>
 	<flow
@@ -29,7 +29,7 @@
 		<logger level="INFO" doc:name="START - PUT /state/{msisdn}"
 			doc:id="3f4e0b6c-dc9c-492d-8e14-4af87ecebc40" message="End" />
 		<set-variable
-			value="#['spectre-freefb-' ++ payload.msisdn]"
+			value="#['spectre-freefb-' ++ attributes.uriParams.'msisdn']"
 			doc:name="Set Redis Key - State"
 			doc:id="d3fe09e7-db7c-4c8b-8d5a-023cdb568e31"
 			variableName="redis-key" />
