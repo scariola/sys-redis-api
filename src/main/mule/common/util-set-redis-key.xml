@@ -1,0 +1,20 @@
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+	<sub-flow name="set-redis-key-state-subflow" doc:id="b448dc6f-29a8-4b82-bd3a-962db7be11e9">
+		<set-variable variableName="redis-key"
+			value="#['spectre-freefb-' ++ attributes.uriParams.msisdn]" />
+	</sub-flow>
+
+	<sub-flow name="set-redis-key-brand-subflow" doc:id="0f0214ae-6aa3-420d-bf86-5ab0cb99f18b">
+		<set-variable variableName="redis-key"
+			value="#['bridge-' ++ attributes.uriParams.prefix]" />
+	</sub-flow>
+
+	<sub-flow name="set-redis-key-brand-body-subflow" doc:id="2c2182e4-c044-45b6-8aad-80c4951c1118">
+		<set-variable variableName="redis-key"
+			value="#['bridge-' ++ payload.prefix]" />
+	</sub-flow>
+</mule>

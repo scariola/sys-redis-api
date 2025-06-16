@@ -6,7 +6,7 @@
 	xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-	
+
 	<flow name="sys-redis-api-main">
 		<http:listener
 			config-ref="HTTP_Listener_Config_sys_redis_api"
@@ -28,11 +28,7 @@
 		name="put:\state\(msisdn):application\json:sys-redis-api-config">
 		<logger level="INFO" doc:name="START - PUT /state/{msisdn}"
 			doc:id="3f4e0b6c-dc9c-492d-8e14-4af87ecebc40" message="End" />
-		<set-variable
-			value="#['spectre-freefb-' ++ attributes.uriParams.'msisdn']"
-			doc:name="Set Redis Key - State"
-			doc:id="d3fe09e7-db7c-4c8b-8d5a-023cdb568e31"
-			variableName="redis-key" />
+		<flow-ref doc:name="Set Redis Key - State" doc:id="608add73-f3f6-4875-a01e-8034cef2e3f8" name="set-redis-key-state-subflow"/>
 		<flow-ref doc:name="update-redis-cache-state"
 			doc:id="d89a55e1-3393-49ff-8ea8-ad32d8f067c0"
 			name="create-update-redis-cache-flow" />
@@ -42,11 +38,7 @@
 	<flow name="get:\state\(msisdn):sys-redis-api-config">
 		<logger level="INFO" doc:name="START - GET /state/{msisdn}"
 			doc:id="a4ada2af-ce8b-4f28-969e-352bcd2f9a5b" message="Start" />
-		<set-variable
-			value="#['spectre-freefb-' ++ attributes.uriParams.'msisdn']"
-			doc:name="Set Redis Key - State"
-			doc:id="ca98cdcf-d9c9-4606-8ea2-c1ee470fe924"
-			variableName="redis-key" />
+		<flow-ref doc:name="Set Redis Key - State" doc:id="d27c76d2-9418-457a-bde5-115f32ed3f58" name="set-redis-key-state-subflow"/>
 		<flow-ref doc:name="get-redis-cache-state"
 			doc:id="b8b48081-04a9-4d52-96f2-d84a24020ae8"
 			name="get-redis-cache-flow" />
@@ -56,11 +48,7 @@
 	<flow name="get:\brand\(prefix):sys-redis-api-config">
 		<logger level="INFO" doc:name="START - GET /brand/{prefix}"
 			doc:id="293cbeae-b5f3-4416-87e7-3e427ca33888" message="Start" />
-		<set-variable
-			value="#['bridge-' ++ attributes.uriParams.'prefix']"
-			doc:name="Set Redis Key - Brand"
-			doc:id="1e2e06f8-b5bc-483d-81c0-d3a5d5aff04e"
-			variableName="redis-key" />
+		<flow-ref doc:name="Set Redis Key - Brand" doc:id="498e5261-cf72-41f0-ade2-87ccafdcf242" name="set-redis-key-brand-subflow"/>
 		<flow-ref doc:name="get-redis-cache-brand"
 			doc:id="f1dce388-f774-422e-8ebd-4cbc996adf84"
 			name="get-redis-cache-flow" />
@@ -70,10 +58,7 @@
 	<flow name="post:\brand:application\json:sys-redis-api-config">
 		<logger level="INFO" doc:name="START - POST /brand"
 			doc:id="1cdddd0d-da0f-4155-9059-4ac38d3807ad" message="Start" />
-		<set-variable value="#['bridge-' ++ payload.prefix]"
-			doc:name="Set Redis Key - Brand"
-			doc:id="0a1d445e-86a4-4fc9-a432-434ce70e846a"
-			variableName="redis-key" />
+		<flow-ref doc:name="Set Redis Key - Brand" doc:id="a8b16708-a0fc-4ff2-b3a0-4fd5a46c4274" name="set-redis-key-brand-body-subflow"/>
 		<flow-ref doc:name="create-redis-cache-brand"
 			doc:id="fceb4e78-3ca2-41d3-b6b4-77a532756af7"
 			name="create-update-redis-cache-flow" />

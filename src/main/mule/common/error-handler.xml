@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:redis="http://www.mulesoft.org/schema/mule/redis"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-        http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+        http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/redis/current/mule-redis.xsd">
 
 	<error-handler name="sys-redis-api_Shared_Error_Handler">
 
@@ -75,19 +77,26 @@
 			<set-variable variableName="httpStatus" value="501"
 				doc:name="Set httpStatus  = 501" />
 		</on-error-propagate>
-
-
-		<on-error-propagate type="ANY" logException="true"
-			enableNotifications="true">
-			<ee:transform doc:name="Set Payload - Any Occured">
-				<ee:message>
-					<ee:set-payload
-						resource="dw/unexpected-system-error.dwl" />
+		<on-error-propagate enableNotifications="true"
+				logException="true" doc:name="On Error Propagate"
+				doc:id="d81827ff-887d-4293-87a5-b55847001d6d"
+				type="REDIS:CONNECTIVITY" >
+			<ee:transform doc:name="Set Payload - Redis connection failed" doc:id="e16efdff-44de-4fbf-a0aa-06b5ad70170b" >
+				<ee:message >
+					<ee:set-payload resource="dw/redis-connection-failed.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="500"
-				doc:name="Set httpStatus  = 500" />
+			<set-variable value="503" doc:name="Set httpStatus  = 503" doc:id="fde4f4b1-536c-4d87-b368-705d8e4b271e" variableName="httpStatus" />
 		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="5197c6a9-c723-4d25-a9f5-49132b64fc91" type="ANY">
+			<ee:transform doc:name="Set Payload - Any Occured" doc:id="96f84071-f99f-47e5-8afd-b99f633375ec">
+				<ee:message>
+					<ee:set-payload resource="dw/unexpected-system-error.dwl" />
+				</ee:message>
+			</ee:transform>
+			<set-variable value="500" doc:name="Set httpStatus  = 500" doc:id="af97ab80-2f23-4028-a1a6-605608be43a4" variableName="httpStatus" />
+		</on-error-propagate>
+
 
 	</error-handler>
 </mule>

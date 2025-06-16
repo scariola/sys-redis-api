@@ -41,4 +41,7 @@ http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/re
 			host="${redis.host}" port="${redis.port}"
 			password="${redis.password}" />
 	</redis:redis-config>
+	<configuration doc:name="Global_Error_Handler_Config"
+		doc:id="773be5c5-7ea7-41d5-8a94-f67d233af0e7"
+		defaultErrorHandler-ref="sys-redis-api_Shared_Error_Handler" />
 </mule>
