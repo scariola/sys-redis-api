@@ -4,6 +4,9 @@ output application/json
 {
   "x-event-code": 9010,
   "x-event-msg": "Unsupported media type",
-  "data": error.detailedDescription,
-  "correlationId": correlationId
+  "result":{
+  	"errorType": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
+    "errorDescription": error.detailedDescription,
+    "correlationId": correlationId
+  }
 }

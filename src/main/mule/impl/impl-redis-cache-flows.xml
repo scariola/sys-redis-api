@@ -47,7 +47,7 @@ output application/json
 {
   "x-event-code": 1005,
   "x-event-msg": "Success",
-  "results": {}
+  "results": payload default ""
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
@@ -65,7 +65,7 @@ output application/json
 			name="set-redis-cache-subflow" />
 		<choice doc:name="Choice" doc:id="53d30754-567a-4e1f-9aa3-47cc701bef8b" >
 			<when expression="#[payload == 'OK']">
-				<ee:transform doc:name="Redis Response to API Response" doc:id="5bee3877-036e-40a5-bf85-03922a24a29c">
+				<ee:transform doc:name="Redis Response to API Response(Success)" doc:id="5bee3877-036e-40a5-bf85-03922a24a29c">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -78,7 +78,7 @@ output application/json
 				</ee:transform>
 			</when>
 			<otherwise>
-				<ee:transform doc:name="Redis Response to API Response" doc:id="6cb4c85a-312e-453b-8cf8-133b39ba7381">
+				<ee:transform doc:name="Redis Response to API Response(Unsuccess)" doc:id="6cb4c85a-312e-453b-8cf8-133b39ba7381">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
