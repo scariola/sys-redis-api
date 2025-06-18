@@ -37,7 +37,8 @@ var result = read(payload,'application/json')
 				</ee:transform>
 			</when>
 			<otherwise>
-				<ee:transform doc:name="Redis Response to API Response (No Key Found)"
+				<ee:transform
+					doc:name="Redis Response to API Response (No Key Found)"
 					doc:id="86240edc-45c5-4591-abf8-03312c1553de">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
@@ -55,7 +56,7 @@ output application/json
 		</choice>
 		<error-handler ref="sys-redis-api_Shared_Error_Handler" />
 
-			
+
 	</flow>
 
 	<flow name="create-update-redis-cache-flow"
@@ -63,9 +64,12 @@ output application/json
 		<flow-ref doc:name="set-redis-cache-subflow"
 			doc:id="9601088d-6370-455a-856a-2cf95519fcec"
 			name="set-redis-cache-subflow" />
-		<choice doc:name="Choice" doc:id="53d30754-567a-4e1f-9aa3-47cc701bef8b" >
+		<choice doc:name="Choice"
+			doc:id="53d30754-567a-4e1f-9aa3-47cc701bef8b">
 			<when expression="#[payload == 'OK']">
-				<ee:transform doc:name="Redis Response to API Response(Success)" doc:id="5bee3877-036e-40a5-bf85-03922a24a29c">
+				<ee:transform
+					doc:name="Redis Response to API Response(Success)"
+					doc:id="5bee3877-036e-40a5-bf85-03922a24a29c">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -78,7 +82,9 @@ output application/json
 				</ee:transform>
 			</when>
 			<otherwise>
-				<ee:transform doc:name="Redis Response to API Response(Unsuccess)" doc:id="6cb4c85a-312e-453b-8cf8-133b39ba7381">
+				<ee:transform
+					doc:name="Redis Response to API Response(Unsuccess)"
+					doc:id="6cb4c85a-312e-453b-8cf8-133b39ba7381">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json

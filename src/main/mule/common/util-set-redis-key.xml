@@ -5,16 +5,16 @@
 
 	<sub-flow name="set-redis-key-state-subflow" doc:id="b448dc6f-29a8-4b82-bd3a-962db7be11e9">
 		<set-variable variableName="redis-key"
-			value="#['spectre-freefb-' ++ attributes.uriParams.msisdn]" />
+			value="#['spectre-freefb-' ++ attributes.uriParams.msisdn]" doc:id="85597561-0727-46db-9d48-f4b1e7c50ada"/>
 	</sub-flow>
 
 	<sub-flow name="set-redis-key-brand-subflow" doc:id="0f0214ae-6aa3-420d-bf86-5ab0cb99f18b">
 		<set-variable variableName="redis-key"
-			value="#['bridge-' ++ attributes.uriParams.prefix]" />
+			value="#['bridge-' ++ attributes.uriParams.prefix]" doc:id="2c4f6b97-6fc1-4972-99fc-08b508749a9a"/>
 	</sub-flow>
 
 	<sub-flow name="set-redis-key-brand-body-subflow" doc:id="2c2182e4-c044-45b6-8aad-80c4951c1118">
 		<set-variable variableName="redis-key"
-			value="#['bridge-' ++ payload.prefix]" />
+			value="#['bridge-' ++ payload.prefix]" doc:id="191961c9-c85b-4060-8ee3-18581c58c321"/>
 	</sub-flow>
 </mule>

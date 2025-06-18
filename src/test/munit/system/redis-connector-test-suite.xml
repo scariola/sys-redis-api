@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="new-test-suite.xml" />
+	<munit:test name="set-redis-cache-subflow-success-test" doc:id="37765ab1-7b32-4fb3-9588-a63c3bffeee3" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="e5ae1123-812f-485a-9627-150da4da2676" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://setrediscachesubflowsuccesstest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://setrediscachesubflowsuccesstest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://setrediscachesubflowsuccesstest\set-event_variable_.dwl')]" />
+					<munit:variable key="redis-key" value="#[output application/json --- readUrl('classpath://setrediscachesubflowsuccesstest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to set-redis-cache-subflow" doc:id="41366520-fe06-47d8-b9aa-4c7786943985" name="set-redis-cache-subflow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="388eddcf-f73c-4a6a-8839-a946c8b715a3" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import setrediscachesubflowsuccesstest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert variables" doc:id="a79f4e46-fcf0-427e-9ab8-04afc172d373" message="The variables do not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import setrediscachesubflowsuccesstest::assert_expression_variables
+---
+assert_expression_variables::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Set Redis Cache" doc:id="0dbafe7c-6c60-44c2-b471-1e2974c36bb5" processor="redis:set" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="2bedc43a-3c8c-4801-8914-6a5028865c86" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="get-redis-cache-subflow-success-test" doc:id="0732045d-5e30-4e95-adc8-95011f0e796e" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="b6ddcfd3-48fd-47fb-a385-2c09cda2fa85" >
+				<munit:payload value="#[readUrl('classpath://getrediscachesubflowsuccesstest\set-event_payload2.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getrediscachesubflowsuccesstest\set-event_attributes2.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getrediscachesubflowsuccesstest\set-event_variable_4.dwl')]" />
+					<munit:variable key="redis-key" value="#[output application/java --- readUrl('classpath://getrediscachesubflowsuccesstest\set-event_variable_5.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-redis-cache-subflow" doc:id="8e3f60b3-a510-4efc-b7e7-cef509329d03" name="get-redis-cache-subflow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="fce2977e-a85b-43b6-8eb2-e75ac11cb9d2" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getrediscachesubflowsuccesstest::assert_expression_payload2
+---
+assert_expression_payload2::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:assert doc:name="Assert variables" doc:id="a86a1dc8-9fa9-4b9a-86ed-e144bff37d00" message="The variables do not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getrediscachesubflowsuccesstest::assert_expression_variables1
+---
+assert_expression_variables1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Get Redis Cache" doc:id="ad8f71cc-b202-410a-a976-c4ed4cf1463f" processor="redis:get" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="b9db12b8-797d-47c1-af9d-74a680bb42d9" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

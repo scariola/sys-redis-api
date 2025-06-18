@@ -15,7 +15,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<munit:config name="new-test-suite.xml" />
 	<munit:test
-		name="sys-redis-api-main-apikit-bad-request-test" ignore="true">
+		name="sys-redis-api-main-apikit-bad-request-test">
 
 		<munit:execution>
 			<munit:set-event doc:name="Set Event"
@@ -56,7 +56,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 </munit:test>
 	<munit:test name="sys-redis-api-main-apikit-not-found-test"
-		doc:id="0daae4aa-7b72-430f-95ec-3fcfc69a2efa" ignore="true">
+		doc:id="0daae4aa-7b72-430f-95ec-3fcfc69a2efa">
 		<munit:execution>
 			<munit:set-event doc:name="Set Event"
 				doc:id="45c5cfab-a78f-4add-ad93-e77791c874b9">
@@ -95,7 +95,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</munit:test>
 	<munit:test
 		name="sys-redis-api-main-apikit-method-not-allowed"
-		doc:id="9e1681c4-8f09-4bde-a744-0765a3d0acb7" ignore="true">
+		doc:id="9e1681c4-8f09-4bde-a744-0765a3d0acb7">
 		<munit:execution>
 			<munit:set-event doc:name="Set Event"
 				doc:id="80249f64-bdaa-4384-9010-dd30dffa533f">
@@ -133,7 +133,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</munit:validation>
 	</munit:test>
 	<munit:test name="sys-redis-api-main-apikit-not-acceptable"
-		doc:id="3062aaa3-916b-4d6f-b938-6638a88ce07d" ignore="true">
+		doc:id="3062aaa3-916b-4d6f-b938-6638a88ce07d">
 		<munit:execution>
 			<munit:set-event doc:name="Set Event"
 				doc:id="5416f67b-9632-4b43-9cec-37317bfa59b5">
@@ -166,7 +166,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="sys-redis-api-main-apikit-unsupported-media-type-test" doc:id="da39fbfc-31f8-4fae-b6f4-4d63b43b9b9f" ignore="true">
+	<munit:test name="sys-redis-api-main-apikit-unsupported-media-type-test" doc:id="da39fbfc-31f8-4fae-b6f4-4d63b43b9b9f">
 		<munit:execution>
 			<munit:set-event doc:name="Set Event" doc:id="573b6d0a-e128-4eed-8d89-0cb01d0082c7">
 				<munit:payload value='#[{&#10;  "prefix": "91721",&#10;  "brand-id": "1",&#10;  "brand-name": "TM"&#10;}]' />
@@ -193,8 +193,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<munit:test name="sys-redis-api-main-apikit-not-implemented-test" doc:id="0bf1d78b-4c51-4604-9ccf-8506bc4979ac">
 		<munit:execution >
 			<munit:set-event doc:name="Set Event" doc:id="d9f3e12c-f7d4-46bc-a2dc-8933288e8951" >
-				<munit:payload value='#[{&#10;  "prefix": "91721",&#10;  "brand-id": "1",&#10;  "brand-name": "TM"&#10;}]' />
-				<munit:attributes value='#[{&#10;  "headers": {&#10;    "x-correlation-id": "s12312312312312312",&#10;  },&#10;  "listenerPath": "/api",&#10; "relativePath": "/this/path/does/not/exist",&#10;  "version": "HTTP/1.1",&#10;  "method": "GET",&#10;  "scheme": "HTTP",&#10;  "requestPath": "/api/this/path/does/not/exist",&#10;  "requestUri": "",&#10;  "rawRequestPath": "",&#10;  "localAddress": "",&#10;  "remoteAddress": ""&#10;}&#10;as Object {&#10;  class: "org.mule.extension.http.api.HttpRequestAttributes"&#10;}]' />
+				<munit:attributes value='#[{&#10;  "headers": {&#10;    "x-correlation-id": "s12312312312312312"&#10;  },&#10;  "listenerPath": "/api/*",&#10; "relativePath": "/api/brand/91722",&#10;  "version": "HTTP/1.1",&#10;  "method": "GET",&#10;  "scheme": "HTTP",&#10;  "requestPath": "",&#10;  "requestUri": "",&#10;  "rawRequestPath": "/api/brand/91722",&#10;  "localAddress": "",&#10;  "remoteAddress": ""&#10;}&#10;as Object {&#10;  class: "org.mule.extension.http.api.HttpRequestAttributes"&#10;}]' />
 			</munit:set-event>
 			<try doc:name="Try" doc:id="2337f320-83ac-44b9-bb6b-51487196fe58" >
 				<flow-ref doc:name="Flow Ref to sys-redis-api-main" doc:id="e98ae05c-2f32-4459-b855-cb8e5972f7a1" name="sys-redis-api-main" />
