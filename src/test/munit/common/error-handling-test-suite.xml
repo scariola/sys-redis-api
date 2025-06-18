@@ -194,7 +194,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<munit:execution >
 			<munit:set-event doc:name="Set Event" doc:id="d9f3e12c-f7d4-46bc-a2dc-8933288e8951" >
 				<munit:payload value='#[{&#10;  "prefix": "91721",&#10;  "brand-id": "1",&#10;  "brand-name": "TM"&#10;}]' />
-				<munit:attributes value='#[{&#10;  "headers": {&#10;    "x-correlation-id": "s12312312312312312",&#10;    "content-type": "application/json" &#10;  },&#10;  "listenerPath": "/api/*",&#10; "relativePath": "/not-defined-endpoint",&#10;  "version": "HTTP/1.1",&#10;  "method": "POST",&#10;  "scheme": "HTTP",&#10;  "requestPath": "",&#10;  "requestUri": "",&#10;  "rawRequestPath": "/not-defined-endpoint",&#10;  "localAddress": "",&#10;  "remoteAddress": ""&#10;}&#10;as Object {&#10;  class: "org.mule.extension.http.api.HttpRequestAttributes"&#10;}]' />
+				<munit:attributes value='#[{&#10;  "headers": {&#10;    "x-correlation-id": "s12312312312312312",&#10;  },&#10;  "listenerPath": "/api",&#10; "relativePath": "/this/path/does/not/exist",&#10;  "version": "HTTP/1.1",&#10;  "method": "GET",&#10;  "scheme": "HTTP",&#10;  "requestPath": "/api/this/path/does/not/exist",&#10;  "requestUri": "",&#10;  "rawRequestPath": "",&#10;  "localAddress": "",&#10;  "remoteAddress": ""&#10;}&#10;as Object {&#10;  class: "org.mule.extension.http.api.HttpRequestAttributes"&#10;}]' />
 			</munit:set-event>
 			<try doc:name="Try" doc:id="2337f320-83ac-44b9-bb6b-51487196fe58" >
 				<flow-ref doc:name="Flow Ref to sys-redis-api-main" doc:id="e98ae05c-2f32-4459-b855-cb8e5972f7a1" name="sys-redis-api-main" />

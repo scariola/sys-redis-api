@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="new-test-suite.xml" />
+	<munit:test
+		name="get:\state\(msisdn):sys-redis-api-config-happy-path-test"
+		doc:id="cb3f6e4f-b350-4230-8d48-5c63e8f563fa" description="Test"
+		ignore="true">
+		<munit:execution>
+			<munit:set-event doc:name="Set Event"
+				doc:id="02cb691e-7cdf-44c0-9d4d-74563f5f122b">
+				<munit:attributes
+					value="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;  uriParams: {&#10;    msisdn: 639174276705&#10;  }&#10;}]" />
+			</munit:set-event>
+			<flow-ref
+				doc:name="Flow ref to get:\state\(msisdn):sys-redis-api-config"
+				doc:id="315b0221-cb50-4aca-a334-b4eaef91c2da"
+				name="get:\state\(msisdn):sys-redis-api-config" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="0ce19593-69a3-400e-8396-8008d394fcb4" actual="#[payload]"
+				expected='#[output application/json&#10;---&#10;{&#10;    "x-event-code": 1005,&#10;    "x-event-msg": "Success",&#10;    "results": {&#10;        "state": 1&#10;    }&#10;}]' />
+			<munit-tools:verify-call
+				doc:name="Verify call" doc:id="b69233cd-7167-4dfc-9d94-e215fbff642e"
+				processor="logger" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="2ffc0581-9f52-4c4c-bb19-0d2961fdf2be"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test
+		name="get:\brand\(prefix):sys-redis-api-config-happy-path-test"
+		doc:id="b417a05a-c3ad-45d9-8c86-d283444e19e4" description="Test"
+		ignore="true">
+		<munit:execution>
+			<munit:set-event doc:name="Set Event"
+				doc:id="89d2b276-ce9c-4b94-8778-9526b418acee">
+				<munit:attributes
+					value="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;  uriParams: {&#10;    prefix: 91721&#10;  }&#10;}]" />
+			</munit:set-event>
+			<flow-ref
+				doc:name="Flow ref to get:\brand\(prefix):sys-redis-api-config"
+				doc:id="0ffb0755-6faf-45c6-9d8d-5811c401b48e"
+				name="get:\brand\(prefix):sys-redis-api-config" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="ad595608-9587-448d-9271-8d2797eafcd4" actual="#[payload]"
+				expected='#[{&#10;    "x-event-code": 1005,&#10;    "x-event-msg": "Success",&#10;    "results": {&#10;        "prefix": "91721",&#10;        "brand-id": "1",&#10;        "brand-name": "TM"&#10;    }&#10;}]' />
+			<munit-tools:verify-call
+				doc:name="Verify call" doc:id="491d1826-c7cc-4960-bc90-e1c16abc2810"
+				processor="logger" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="2a7f1529-e659-4ce4-8ab4-e4fcd3f8ca82"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="post:\brand:application\json:sys-redis-api-config-happy-path-test"
+		doc:id="0a14de38-74e7-44bb-8f17-82005a3bbce4" description="Test"
+		ignore="true">
+		<munit:execution>
+			<munit:set-event doc:name="Set Event"
+				doc:id="506927d2-5eee-4d0f-9ed1-5d09b8b0d241">
+				<munit:payload
+					value='#[output application/json&#10;---&#10;{&#10;  "prefix": "91721",&#10;  "brand-id": "1",&#10;  "brand-name": "TM"&#10;}]'
+					mediaType="application/json" />
+			</munit:set-event>
+			<flow-ref
+				doc:name="Flow ref to post:\brand:application\json:sys-redis-api-config"
+				doc:id="665c9489-05df-441b-9f8f-13a049999191"
+				name="post:\brand:application\json:sys-redis-api-config" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="2e2890ae-46d6-4eb1-b7da-43915b616c38" actual="#[payload]"
+				expected='#[{&#10;    "x-event-code": 1002,&#10;    "x-event-msg": "Cache Successful!"&#10;}]' />
+			<munit-tools:verify-call
+				doc:name="Verify call" doc:id="c9884351-cec6-45df-abe9-92fc8267e498"
+				processor="logger" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="01aa6a21-386b-4133-af53-9a36b4d3b3dc"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="put:\state\(msisdn):application\json:sys-redis-api-config-happy-path-test"
+		doc:id="0cef6d22-d32f-4b07-82e6-2b134da1a9de" description="Test"
+		ignore="true">
+		<munit:execution>
+			<munit:set-event doc:name="Set Event"
+				doc:id="61ad93bf-343b-4ce9-bc8a-47d0136b8c88">
+				<munit:payload
+					value='#[output application/json&#10;---&#10;{&#10;    "state": 1&#10;}]'
+					mediaType="application/json" />
+				<munit:attributes
+					value="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;  uriParams: {&#10;    msisdn: 639174276705&#10;  }&#10;}]" />
+			</munit:set-event>
+			<flow-ref
+				doc:name="Flow ref to put:\state\(msisdn):application\json:sys-redis-api-config"
+				doc:id="2a7a22c4-555e-47a3-94a5-2fbf63bd4a1d"
+				name="put:\state\(msisdn):application\json:sys-redis-api-config" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="Assert equals"
+				doc:id="9430d7d8-c39b-4ce8-b4eb-f622329852d4" actual="#[payload]"
+				expected='#[{&#10;    "x-event-code": 1002,&#10;    "x-event-msg": "Cache Successful!"&#10;}]' />
+			<munit-tools:verify-call
+				doc:name="Verify call" doc:id="0200d85e-6093-4368-b058-c0903cf789e4"
+				processor="logger" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="8722aed7-da6b-4901-a9d4-3ec1097171e9"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
