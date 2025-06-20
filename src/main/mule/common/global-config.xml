@@ -31,7 +31,7 @@ http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/re
 			port="${app.port}" />
 	</http:listener-config>
 	<apikit:config name="sys-redis-api-config"
-		api="resource::19504067-e1e3-45dd-943a-e163098ddbed:sys-redis-api:1.0.8:raml:zip:sys-redis-api.raml"
+		api="resource::19504067-e1e3-45dd-943a-e163098ddbed:sys-redis-api:1.0.10:raml:zip:sys-redis-api.raml"
 		outboundHeadersMapName="outboundHeaders"
 		httpStatusVarName="httpStatus" />
 	<redis:redis-config
