@@ -22,7 +22,7 @@
 			</http:error-response>
 		</http:listener>
 		<apikit:router config-ref="sys-redis-api-config" />
-		<error-handler ref="sys-redis-api_Shared_Error_Handler" />
+		<error-handler ref="sys-redis-api_APIKIT_Error_Handler" />
 	</flow>
 	<flow
 		name="put:\state\(msisdn):application\json:sys-redis-api-config" doc:id="57258c8d-612e-41da-ab34-ec8be24018ef">

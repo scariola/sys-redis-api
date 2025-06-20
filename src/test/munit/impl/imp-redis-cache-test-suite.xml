@@ -402,50 +402,6 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 
 		</munit:validation>
 	</munit:test>
-<munit:test
-		name="get-redis-cache-flow-api_Shared_Error_handler_redis_connectivity-test"
-		doc:id="fc34079a-f937-4816-8de7-dd68d6f6ce69">
-		<munit:behavior>
-			<munit:set-event doc:name="Set Input" doc:id="7ee84460-1d86-435d-8570-ca39646e1038">
-				<munit:payload value="#[readUrl('classpath://getrediscachebrandresultfoundsuccess\set-event_payload.dwl')]" encoding="UTF-8" />
-				<munit:attributes value="#[readUrl('classpath://getrediscachebrandresultfoundsuccess\set-event_attributes.dwl')]" />
-				<munit:variables>
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getrediscachebrandresultfoundsuccess\set-event_variable_.dwl')]" />
-					<munit:variable key="redis-key" value="#[output application/java --- readUrl('classpath://getrediscachebrandresultfoundsuccess\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/java" />
-				</munit:variables>
-			</munit:set-event>
-			<munit-tools:mock-when doc:name="Mock get-redis-cache-subflow" doc:id="26936b10-7c0c-4f10-918c-edcafc4053bd" processor="flow-ref">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="887d86b8-bf5b-47f3-9228-52a5578660f6" attributeName="doc:id" />
-				</munit-tools:with-attributes>
-				<munit-tools:then-return >
-					<munit-tools:error typeId="REDIS:CONNECTIVITY" />
-				</munit-tools:then-return>
-			</munit-tools:mock-when>
-		
-</munit:behavior>
-		<munit:execution>
-			<try doc:name="Try" doc:id="16eb3927-4f39-4722-8839-b77cde3e1caa" >
-				<flow-ref doc:name="Flow-ref to get-redis-cache-flow" doc:id="d671e4ff-2d34-4949-b161-79f5d0f14b58" name="get-redis-cache-flow" />
-				<error-handler >
-					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="a615a2b5-f1d9-4ddd-9aa5-788d89bbde08" >
-						<logger level="INFO" doc:name="Logger" doc:id="1a804f0e-58af-4da6-81e5-bf115878c667" message="Redis Connectivity"/>
-					</on-error-continue>
-				</error-handler>
-			</try>
-		</munit:execution>
-		<munit:validation>
-			<munit-tools:assert-that doc:name="Assert Redis connectivity" doc:id="fefc258f-86a1-4f0d-aca0-c11c3b4ec1de" is="#[MunitTools::equalTo('REDIS:CONNECTIVITY')]" expression="#[payload.result.errorType]"/>
-			<munit-tools:verify-call doc:name="Verify call On Error Redis Connectivity" doc:id="b5164658-3ba2-4fba-b1fd-13198ddfb41f" processor="set-variable" times="1">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="fde4f4b1-536c-4d87-b368-705d8e4b271e" attributeName="doc:id" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
-
-		</munit:validation>
-		
-	
-</munit:test>
 
 <munit:test name="get-redis-cache-flow-api_Shared_Error_handler_redis_any_error-test" doc:id="b020db9c-f71f-495a-82cb-526589327e99">
 		<munit:behavior >
@@ -528,14 +484,45 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert Redis connectivity" doc:id="c3e1fa6a-fb83-4a60-8c26-9dd12da1dc24" is="#[MunitTools::equalTo('REDIS:CONNECTIVITY')]" expression="#[payload.result.errorType]" />
 			<munit-tools:verify-call doc:name="Verify call On Error Redis Connectivity" doc:id="720449fa-fefd-4e82-afde-3d883293df6f" processor="set-variable" times="1" >
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="fde4f4b1-536c-4d87-b368-705d8e4b271e" attributeName="doc:id" />
-				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 
 		</munit:validation>
 	
 </munit:test>
+	<munit:test name="get-redis-cache-flow-api_Shared_Error_handler_redis_connectivity-test" doc:id="f89e22a2-5ee2-445d-8e6e-4e939c8f6a12">
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="6bc4b42a-1d95-4962-a154-c1b0cc1fdc3c" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://createrediscachebrandflowsuccesstest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://createrediscachebrandflowsuccesstest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://createrediscachebrandflowsuccesstest\set-event_variable_.dwl')]" />
+					<munit:variable key="redis-key" value="#[output application/json --- readUrl('classpath://createrediscachebrandflowsuccesstest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+			<munit-tools:mock-when doc:name="Mock set-redis-cache-subflow" doc:id="4591855b-d8cf-48e6-bddd-59af95b31029" processor="flow-ref" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="887d86b8-bf5b-47f3-9228-52a5578660f6" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="REDIS:CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="67391756-36a2-4062-b3fd-cfaf31198f60" >
+				<flow-ref doc:name="Flow-ref to create-update-redis-cache-flow" doc:id="0ad0ff9b-d7f1-4015-889a-cf646f1d236f" name="get-redis-cache-flow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d3fc2c2f-5578-4859-a313-1b80fad24d39" >
+						<logger level="INFO" doc:name="Logger" doc:id="a470af48-6b69-4442-9759-66af0f0165b0" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert Redis connectivity" doc:id="a1fbfe89-eb6c-439b-b57e-761ef624bb63" is="#[MunitTools::equalTo('REDIS:CONNECTIVITY')]" expression="#[payload.result.errorType]" />
+			<munit-tools:verify-call doc:name="Verify call On Error Redis Connectivity" doc:id="b9c32fd1-47d6-4302-8c35-a88cf94c296c" processor="set-variable" times="1" />
+		</munit:validation>
+	</munit:test>
 	<munit:test name="create-update-redis-cache-flow-api_Shared_Error_handler_redis_any_error-test" doc:id="4325aec9-fc5b-4cb2-bd3f-c0170a52353c">
 		<munit:behavior >
 			<munit:set-event doc:name="Set Input" doc:id="01eacecc-91ae-4ad3-ac16-c8926ca7ef20" >

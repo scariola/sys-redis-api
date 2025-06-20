@@ -8,95 +8,90 @@
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
         http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/redis/current/mule-redis.xsd">
-
 	<error-handler name="sys-redis-api_Shared_Error_Handler">
+		<on-error-propagate enableNotifications="true"
+			logException="true" doc:name="On Error Propagate"
+			doc:id="d81827ff-887d-4293-87a5-b55847001d6d"
+			type="REDIS:CONNECTIVITY">
+			<ee:transform
+				doc:name="Set Payload - Redis connection failed"
+				doc:id="e16efdff-44de-4fbf-a0aa-06b5ad70170b">
+				<ee:message>
+					<ee:set-payload
+						resource="dw/redis-connection-failed.dwl" />
+				</ee:message>
+			</ee:transform>
+			<set-variable value="503"
+				doc:name="Set httpStatus  = 503"
+				doc:id="fde4f4b1-536c-4d87-b368-705d8e4b271e"
+				variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true"
+			logException="true" doc:name="On Error Propagate"
+			doc:id="5197c6a9-c723-4d25-a9f5-49132b64fc91" type="ANY">
+			<ee:transform doc:name="Set Payload - Any Occured"
+				doc:id="96f84071-f99f-47e5-8afd-b99f633375ec">
+				<ee:message>
+					<ee:set-payload
+						resource="dw/unexpected-system-error.dwl" />
+				</ee:message>
+			</ee:transform>
+			<set-variable value="500"
+				doc:name="Set httpStatus  = 500"
+				doc:id="af97ab80-2f23-4028-a1a6-605608be43a4"
+				variableName="httpStatus" />
+		</on-error-propagate>
 
+
+	</error-handler>
+	<error-handler name="sys-redis-api_APIKIT_Error_Handler" doc:id="13d608e0-94eb-4a17-8016-3063da92b4da" >
 		<on-error-propagate type="APIKIT:BAD_REQUEST">
 			<ee:transform doc:name="Set Payload - Bad Request">
 				<ee:message>
 					<ee:set-payload resource="dw/api-bad-request.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="400"
-				doc:name="Set httpStatus  = 400" />
+			<set-variable variableName="httpStatus" value="400" doc:name="Set httpStatus  = 400" />
 		</on-error-propagate>
-
 		<on-error-propagate type="APIKIT:NOT_FOUND">
 			<ee:transform doc:name="Set Payload - Not Found">
 				<ee:message>
 					<ee:set-payload resource="dw/api-not-found.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="404"
-				doc:name="Set httpStatus  = 404" />
+			<set-variable variableName="httpStatus" value="404" doc:name="Set httpStatus  = 404" />
 		</on-error-propagate>
-
-		<on-error-propagate
-			type="APIKIT:METHOD_NOT_ALLOWED">
-			<ee:transform
-				doc:name="Set Payload - Method Not Allowed">
+		<on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+			<ee:transform doc:name="Set Payload - Method Not Allowed">
 				<ee:message>
-					<ee:set-payload
-						resource="dw/api-method-not-allowed.dwl" />
+					<ee:set-payload resource="dw/api-method-not-allowed.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="405"
-				doc:name="Set httpStatus  = 405" />
+			<set-variable variableName="httpStatus" value="405" doc:name="Set httpStatus  = 405" />
 		</on-error-propagate>
-
 		<on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
 			<ee:transform doc:name="Set  Payload - Not Acceptable">
 				<ee:message>
 					<ee:set-payload resource="dw/api-not-acceptable.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="406"
-				doc:name="Set httpStatus  = 406" />
+			<set-variable variableName="httpStatus" value="406" doc:name="Set httpStatus  = 406" />
 		</on-error-propagate>
-
-		<on-error-propagate
-			type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
-			<ee:transform
-				doc:name="Set Payload - Unsupported Media Type">
+		<on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+			<ee:transform doc:name="Set Payload - Unsupported Media Type">
 				<ee:message>
-					<ee:set-payload
-						resource="dw/api-unsupported-media-type.dwl" />
+					<ee:set-payload resource="dw/api-unsupported-media-type.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="415"
-				doc:name="Set httpStatus  = 415" />
+			<set-variable variableName="httpStatus" value="415" doc:name="Set httpStatus  = 415" />
 		</on-error-propagate>
-
 		<on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
 			<ee:transform doc:name="Set Payload - Not Implemented">
 				<ee:message>
-					<ee:set-payload
-						resource="dw/api-not-implemented.dwl" />
+					<ee:set-payload resource="dw/api-not-implemented.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="501"
-				doc:name="Set httpStatus  = 501" />
+			<set-variable variableName="httpStatus" value="501" doc:name="Set httpStatus  = 501" />
 		</on-error-propagate>
-		<on-error-propagate enableNotifications="true"
-				logException="true" doc:name="On Error Propagate"
-				doc:id="d81827ff-887d-4293-87a5-b55847001d6d"
-				type="REDIS:CONNECTIVITY" >
-			<ee:transform doc:name="Set Payload - Redis connection failed" doc:id="e16efdff-44de-4fbf-a0aa-06b5ad70170b" >
-				<ee:message >
-					<ee:set-payload resource="dw/redis-connection-failed.dwl" />
-				</ee:message>
-			</ee:transform>
-			<set-variable value="503" doc:name="Set httpStatus  = 503" doc:id="fde4f4b1-536c-4d87-b368-705d8e4b271e" variableName="httpStatus" />
-		</on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="5197c6a9-c723-4d25-a9f5-49132b64fc91" type="ANY">
-			<ee:transform doc:name="Set Payload - Any Occured" doc:id="96f84071-f99f-47e5-8afd-b99f633375ec">
-				<ee:message>
-					<ee:set-payload resource="dw/unexpected-system-error.dwl" />
-				</ee:message>
-			</ee:transform>
-			<set-variable value="500" doc:name="Set httpStatus  = 500" doc:id="af97ab80-2f23-4028-a1a6-605608be43a4" variableName="httpStatus" />
-		</on-error-propagate>
-
-
 	</error-handler>
 </mule>
