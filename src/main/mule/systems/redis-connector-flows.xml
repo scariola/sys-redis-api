@@ -11,37 +11,25 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 	<sub-flow name="set-redis-cache-subflow"
 		doc:id="73b677c1-9593-4c79-a1ea-b605e94267d1">
+		<logger level="INFO" doc:name="START - Set Redis Cache"
+			doc:id="ab0c5587-e2b8-44f3-bbfa-83db1ed00334"
+			message='#["START - Set Redis Cache [key: " ++ vars.redisKey ++ "]"]' />
 		<redis:set doc:name="Set Redis Cache"
 			doc:id="2bedc43a-3c8c-4801-8914-6a5028865c86"
-			config-ref="Redis_Config_sys-redis-api" key="#[vars.'redis-key']">
+			config-ref="Redis_Config_sys-redis-api" key="#[vars.redisKey]">
 			<redis:value><![CDATA[#[%dw 2.0
 output application/java
 ---
 write(payload, "application/json")]]]></redis:value>
 		</redis:set>
-		<ee:transform doc:name="Set Payload Response"
-			doc:id="702ca1ad-1492-4ee5-b8a6-44568e6a2395">
-			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-payload]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
+		<logger level="INFO" doc:name="END- Set Redis Cache" doc:id="954fd2d6-fb3b-4c7e-9d15-2561668b39a1" message="END- Set Redis Cache"/>
 	</sub-flow>
 	<sub-flow name="get-redis-cache-subflow"
 		doc:id="15457625-e058-48eb-9d3c-de39a309af6f">
+		<logger level="INFO" doc:name="START - Get Redis Cache" doc:id="630d5ad7-f7bb-4651-8dfc-c9791f5a6d12" message='#["START - Get Redis Cache [key: " ++ vars.redisKey ++ "]"]'/>
 		<redis:get doc:name="Get Redis Cache"
 			doc:id="b9db12b8-797d-47c1-af9d-74a680bb42d9"
-			config-ref="Redis_Config_sys-redis-api" key="#[vars.'redis-key']" />
-		<ee:transform doc:name="Set Payload Response"
-			doc:id="cc00e16e-7911-4460-86a7-77ad2100b762">
-			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-payload]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
+			config-ref="Redis_Config_sys-redis-api" key="#[vars.redisKey]" />
+		<logger level="INFO" doc:name="END - Get Redis Cache" doc:id="0745e60b-ea55-485f-9080-e37410bd580a" message="END - Get Redis Cache"/>
 	</sub-flow>
 </mule>

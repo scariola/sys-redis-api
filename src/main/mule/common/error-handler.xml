@@ -44,14 +44,16 @@ http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/re
 
 
 	</error-handler>
-	<error-handler name="sys-redis-api_APIKIT_Error_Handler" doc:id="13d608e0-94eb-4a17-8016-3063da92b4da" >
+	<error-handler name="sys-redis-api_APIKIT_Error_Handler"
+		doc:id="13d608e0-94eb-4a17-8016-3063da92b4da">
 		<on-error-propagate type="APIKIT:BAD_REQUEST">
 			<ee:transform doc:name="Set Payload - Bad Request">
 				<ee:message>
 					<ee:set-payload resource="dw/api-bad-request.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="400" doc:name="Set httpStatus  = 400" />
+			<set-variable variableName="httpStatus" value="400"
+				doc:name="Set httpStatus  = 400" />
 		</on-error-propagate>
 		<on-error-propagate type="APIKIT:NOT_FOUND">
 			<ee:transform doc:name="Set Payload - Not Found">
@@ -59,15 +61,20 @@ http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/re
 					<ee:set-payload resource="dw/api-not-found.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="404" doc:name="Set httpStatus  = 404" />
+			<set-variable variableName="httpStatus" value="404"
+				doc:name="Set httpStatus  = 404" />
 		</on-error-propagate>
-		<on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
-			<ee:transform doc:name="Set Payload - Method Not Allowed">
+		<on-error-propagate
+			type="APIKIT:METHOD_NOT_ALLOWED">
+			<ee:transform
+				doc:name="Set Payload - Method Not Allowed">
 				<ee:message>
-					<ee:set-payload resource="dw/api-method-not-allowed.dwl" />
+					<ee:set-payload
+						resource="dw/api-method-not-allowed.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="405" doc:name="Set httpStatus  = 405" />
+			<set-variable variableName="httpStatus" value="405"
+				doc:name="Set httpStatus  = 405" />
 		</on-error-propagate>
 		<on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
 			<ee:transform doc:name="Set  Payload - Not Acceptable">
@@ -75,23 +82,30 @@ http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/re
 					<ee:set-payload resource="dw/api-not-acceptable.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="406" doc:name="Set httpStatus  = 406" />
+			<set-variable variableName="httpStatus" value="406"
+				doc:name="Set httpStatus  = 406" />
 		</on-error-propagate>
-		<on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
-			<ee:transform doc:name="Set Payload - Unsupported Media Type">
+		<on-error-propagate
+			type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+			<ee:transform
+				doc:name="Set Payload - Unsupported Media Type">
 				<ee:message>
-					<ee:set-payload resource="dw/api-unsupported-media-type.dwl" />
+					<ee:set-payload
+						resource="dw/api-unsupported-media-type.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="415" doc:name="Set httpStatus  = 415" />
+			<set-variable variableName="httpStatus" value="415"
+				doc:name="Set httpStatus  = 415" />
 		</on-error-propagate>
 		<on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
 			<ee:transform doc:name="Set Payload - Not Implemented">
 				<ee:message>
-					<ee:set-payload resource="dw/api-not-implemented.dwl" />
+					<ee:set-payload
+						resource="dw/api-not-implemented.dwl" />
 				</ee:message>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="501" doc:name="Set httpStatus  = 501" />
+			<set-variable variableName="httpStatus" value="501"
+				doc:name="Set httpStatus  = 501" />
 		</on-error-propagate>
 	</error-handler>
 </mule>
