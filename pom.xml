@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>19504067-e1e3-45dd-943a-e163098ddbed</groupId>
@@ -24,7 +22,6 @@
 		<muleVersion>4.9.6</muleVersion>
 
 	</properties>
-
 
 	<build>
 		<plugins>
@@ -61,7 +58,6 @@
 							<secure.key>Dev#Key2025@xA1z</secure.key>
 						</secureProperties>
 					</cloudhub2Deployment>
-					
 					<classifier>mule-application</classifier>
 				</configuration>
 			</plugin>
@@ -153,7 +149,7 @@
 		<dependency>
 			<groupId>19504067-e1e3-45dd-943a-e163098ddbed</groupId>
 			<artifactId>sys-redis-api</artifactId>
-			<version>1.0.10</version>
+			<version>1.0.14</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
 		</dependency>
@@ -170,6 +166,12 @@
 			<id>mulesoft-releases</id>
 			<name>MuleSoft Releases Repository</name>
 			<url>https://repository.mulesoft.org/releases/</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>anypoint-exchange-v3</id>
+			<name>Anypoint Exchange V3</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>

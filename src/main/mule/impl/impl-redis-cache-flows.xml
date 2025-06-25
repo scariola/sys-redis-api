@@ -29,9 +29,10 @@ output application/json
 var result = read(payload,'application/json')
 ---
 {
+  "x-event-id":	correlationId,	
   "x-event-code": 1005,
   "x-event-msg": "Success",
-  "results": result
+  "result": result
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
@@ -46,9 +47,10 @@ output application/json
 
 ---
 {
+  "x-event-id":	correlationId,	
   "x-event-code": 1005,
   "x-event-msg": "Success",
-  "results": payload default ""
+  "result": payload default ""
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
@@ -75,6 +77,7 @@ output application/json
 output application/json
 ---
 {
+ "x-event-id":	correlationId,	
  "x-event-code": 1002,
  "x-event-msg": "Cache Successful!"
 }]]></ee:set-payload>
@@ -90,6 +93,7 @@ output application/json
 output application/json
 ---
 {
+ "x-event-id":	correlationId,	
  "x-event-code": 1002,
  "x-event-msg": "Cache Unsuccessful!"
 }]]></ee:set-payload>
