@@ -1,0 +1,30 @@
+{
+  "headers": {
+    "x-correlation-id": "s12312312312312312",
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.44.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "3e6bbcee-82dd-4d33-9e69-2085da23174b",
+    "host": "localhost:8081",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "63"
+  },
+  "clientCertificate": null,
+  "method": "POST",
+  "scheme": "http",
+  "queryParams": {},
+  "requestUri": "/api/brand",
+  "queryString": "",
+  "version": "HTTP/1.1",
+  "maskedRequestPath": "/brand",
+  "listenerPath": "/api/*",
+  "localAddress": "/127.0.0.1:8081",
+  "relativePath": "/api/brand",
+  "uriParams": {},
+  "rawRequestUri": "/api/brand",
+  "rawRequestPath": "/api/brand",
+  "remoteAddress": "/127.0.0.1:50088",
+  "requestPath": "/api/brand"
+}

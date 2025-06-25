@@ -1,4 +1,0 @@
-%dw 2.0
-
-type auto_73b677c1_9593_4c79_a1ea_b605e94267d1_Input_Variables_redis_key = String
-

@@ -57,8 +57,8 @@ output application/json
 {
   "x-event-id":	correlationId,	
   "x-event-code": 1005,
-  "x-event-msg": "Success",
-  "result": payload default ""
+  "x-event-msg": "No Key Found!",
+  "result": {}
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>

@@ -1,4 +1,0 @@
-%dw 2.0
-
-type auto_15457625_e058_48eb_9d3c_de39a309af6f_Input_Variables_redis_key = Any
-
