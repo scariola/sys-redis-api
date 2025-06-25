@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow
+		name="impl-get-redis-state-flow"
+		doc:id="58cc8869-caff-4746-99e6-19b08c8794ce">
+		<logger
+			level="INFO"
+			doc:name="START - Redis State Cache Request"
+			doc:id="c7479b18-be6d-43c8-823c-454ef88a8389"
+			message="START - Redis State Cache Request" />
+		<set-variable
+			value="#['spectre-freefb-' ++ attributes.uriParams.msisdn]"
+			doc:name="redisKey"
+			doc:id="e1fd827b-0a57-4bf4-952f-877151d80ffe"
+			variableName="redisKey" />
+		<flow-ref
+			doc:name="get-redis-subflow"
+			doc:id="74a80ec7-28fe-4104-8080-63e87389055c"
+			name="get-redis-subflow" />
+		<choice
+			doc:name="CONTAINS State?"
+			doc:id="618f6995-4b7c-4cf9-8229-d6cc529cb659">
+			<when expression="#[!isEmpty(payload)]">
+				<ee:transform
+					doc:name="Redis Response to API Response"
+					doc:id="68ba84fe-d17c-469c-9e5c-15d974156c9d">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+var result = read(payload,'application/json')
+---
+{
+  "x-event-id":	correlationId,	
+  "x-event-code": 1005,
+  "x-event-msg": "Success",
+  "result": result
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise>
+				<ee:transform
+					doc:name="Redis Response to API Response (No Key Found)"
+					doc:id="33267f19-c233-40b5-a235-ceadd82e80c3">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+
+---
+{
+  "x-event-id":	correlationId,	
+  "x-event-code": 1005,
+  "x-event-msg": "Success",
+  "result": payload default ""
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger
+			level="INFO"
+			doc:name="END- Redis State Cache Request"
+			doc:id="861c4b49-dee3-4211-adb2-98cf34381465"
+			message="END- Redis State Cache Request" />
+	</flow>
+	<flow
+		name="impl-put-redis-state-flow"
+		doc:id="54820845-dc60-44e2-a76d-07c563c91991">
+		<logger
+			level="INFO"
+			doc:name="START -Update Redis State Cache Request"
+			doc:id="664f6feb-4cc8-4348-9237-9ac64b5a40c4"
+			message="START -Update Redis State Cache Request" />
+		<set-variable
+			value="#['spectre-freefb-' ++ attributes.uriParams.msisdn]"
+			doc:name="redisKey"
+			doc:id="95bc1bbc-9262-4309-a3d4-7dcb3dce5104"
+			variableName="redisKey" />
+		<flow-ref
+			doc:name="get-redis-subflow"
+			doc:id="3014fba1-beea-4fed-ab54-5829c10ca936"
+			name="set-redis-subflow" />
+		<choice
+			doc:name="IS successful?"
+			doc:id="aa631e8a-e5e6-4cc9-b3c4-7db5726f9fed">
+			<when expression="#[payload == 'OK']">
+				<ee:transform
+					doc:name="Redis Response to API Response(Success)"
+					doc:id="daa8d73b-b180-4feb-9f0e-d5875ef89dca">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+ "x-event-id":	correlationId,	
+ "x-event-code": 1002,
+ "x-event-msg": "State Updated Successfully!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise>
+				<ee:transform
+					doc:name="Redis Response to API Response(Unsuccess)"
+					doc:id="78eb7f05-3f2e-4d05-900d-865b12efe30b">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+ "x-event-id":	correlationId,	
+ "x-event-code": 1002,
+ "x-event-msg": "State Updated Unsuccessful!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger
+			level="INFO"
+			doc:name="END-Update Redis State Cache Request"
+			doc:id="808382d8-328a-4a6e-829a-2b15e463f070"
+			message="END-Update Redis State Cache Request" />
+		<error-handler ref="sys-redis-api_Shared_Error_Handler" />
+	</flow>
+
+</mule>

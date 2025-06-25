@@ -9,11 +9,11 @@
 http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/redis/current/mule-redis.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
-	<sub-flow name="set-redis-cache-subflow"
+	<sub-flow name="set-redis-subflow"
 		doc:id="73b677c1-9593-4c79-a1ea-b605e94267d1">
-		<logger level="INFO" doc:name="START - Set Redis Cache"
+		<logger level="INFO" doc:name="START - Set Redis"
 			doc:id="ab0c5587-e2b8-44f3-bbfa-83db1ed00334"
-			message='#["START - Set Redis Cache [key: " ++ vars.redisKey ++ "]"]' />
+			message='#["START - Set Redis [key: " ++ vars.redisKey ++ "]"]' />
 		<redis:set doc:name="Set Redis Cache"
 			doc:id="2bedc43a-3c8c-4801-8914-6a5028865c86"
 			config-ref="Redis_Config_sys-redis-api" key="#[vars.redisKey]">
@@ -22,14 +22,14 @@ output application/java
 ---
 write(payload, "application/json")]]]></redis:value>
 		</redis:set>
-		<logger level="INFO" doc:name="END- Set Redis Cache" doc:id="954fd2d6-fb3b-4c7e-9d15-2561668b39a1" message="END- Set Redis Cache"/>
+		<logger level="INFO" doc:name="END- Set Redis" doc:id="954fd2d6-fb3b-4c7e-9d15-2561668b39a1" message="END- Set Redis Cache"/>
 	</sub-flow>
-	<sub-flow name="get-redis-cache-subflow"
+	<sub-flow name="get-redis-subflow"
 		doc:id="15457625-e058-48eb-9d3c-de39a309af6f">
-		<logger level="INFO" doc:name="START - Get Redis Cache" doc:id="630d5ad7-f7bb-4651-8dfc-c9791f5a6d12" message='#["START - Get Redis Cache [key: " ++ vars.redisKey ++ "]"]'/>
+		<logger level="INFO" doc:name="START - Get Redis" doc:id="630d5ad7-f7bb-4651-8dfc-c9791f5a6d12" message='#["START - Get Redis [key: " ++ vars.redisKey ++ "]"]'/>
 		<redis:get doc:name="Get Redis Cache"
 			doc:id="b9db12b8-797d-47c1-af9d-74a680bb42d9"
 			config-ref="Redis_Config_sys-redis-api" key="#[vars.redisKey]" />
-		<logger level="INFO" doc:name="END - Get Redis Cache" doc:id="0745e60b-ea55-485f-9080-e37410bd580a" message="END - Get Redis Cache"/>
+		<logger level="INFO" doc:name="END - Get Redis" doc:id="0745e60b-ea55-485f-9080-e37410bd580a" message="END - Get Redis"/>
 	</sub-flow>
 </mule>
