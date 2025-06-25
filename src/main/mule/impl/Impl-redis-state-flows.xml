@@ -69,6 +69,7 @@ output application/json
 			doc:name="END- Redis State Cache Request"
 			doc:id="861c4b49-dee3-4211-adb2-98cf34381465"
 			message="END- Redis State Cache Request" />
+		<error-handler ref="sys-redis-api_Shared_Error_Handler" />
 	</flow>
 	<flow
 		name="impl-put-redis-state-flow"

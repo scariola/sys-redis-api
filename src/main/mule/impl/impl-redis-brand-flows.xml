@@ -140,6 +140,7 @@ output application/json
 			doc:name="END -Add Redis Brand Cache Request"
 			doc:id="16d8494b-a01c-4bde-85bf-a8d6a5795eb6"
 			message="END -Add Redis Brand Request" />
+		<error-handler ref="sys-redis-api_Shared_Error_Handler" />
 	</flow>
 
 
