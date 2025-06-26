@@ -202,7 +202,7 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 			</try>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-that doc:name="Assert Redis Connectivity" doc:id="fc85177f-738e-4fc3-b535-593721f704c7" is="#[MunitTools::equalTo('REDIS:CONNECTIVITY')]" expression="#[payload.result.errorType]"/>
+			<munit-tools:assert-that doc:name="Assert Redis Connectivity" doc:id="fc85177f-738e-4fc3-b535-593721f704c7" is="#[MunitTools::equalTo('REDIS:CONNECTIVITY')]" expression="#[payload.result.'error-type']"/>
 			<munit-tools:verify-call doc:name="Verify Status Code" doc:id="f7f703b1-9812-4d39-abfa-202185b095d5" processor="set-variable" times="1" >
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="fde4f4b1-536c-4d87-b368-705d8e4b271e" attributeName="doc:id" />
@@ -239,7 +239,7 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 			</try>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-that doc:name="Assert Redis Connectivity" doc:id="f28e94b6-5d3c-4e62-bb9a-0455371b54a1" expression="#[payload.result.errorType]" is="#[MunitTools::equalTo('REDIS:CONNECTIVITY')]" />
+			<munit-tools:assert-that doc:name="Assert Redis Connectivity" doc:id="f28e94b6-5d3c-4e62-bb9a-0455371b54a1" expression="#[payload.result.'error-type']" is="#[MunitTools::equalTo('REDIS:CONNECTIVITY')]" />
 			<munit-tools:verify-call doc:name="Verify Status Code" doc:id="7f997a03-a841-4120-9291-525bdd372808" processor="set-variable" times="1" >
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="fde4f4b1-536c-4d87-b368-705d8e4b271e" attributeName="doc:id" />
@@ -276,7 +276,7 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 			</try>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-that doc:name="Assert Any Error" doc:id="9595ffe7-455f-41cd-94d6-75b639b4970a" expression="#[payload.result.errorType]" is="#[MunitTools::equalTo('MULE:ANY')]" />
+			<munit-tools:assert-that doc:name="Assert Any Error" doc:id="9595ffe7-455f-41cd-94d6-75b639b4970a" expression="#[payload.result.'error-type']" is="#[MunitTools::equalTo('MULE:ANY')]" />
 			<munit-tools:verify-call doc:name="Verify Status Code" doc:id="adc82718-d24c-4695-82ff-b55ae1661d13" processor="set-variable" times="1" >
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="af97ab80-2f23-4028-a1a6-605608be43a4" attributeName="doc:id" />
@@ -313,7 +313,7 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 			</try>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-that doc:name="Assert Any Error" doc:id="42b9f525-5bbb-459c-a40c-6bd1eaa59ec2" expression="#[payload.result.errorType]" is="#[MunitTools::equalTo('MULE:ANY')]" />
+			<munit-tools:assert-that doc:name="Assert Any Error" doc:id="42b9f525-5bbb-459c-a40c-6bd1eaa59ec2" expression="#[payload.result.'error-type']" is="#[MunitTools::equalTo('MULE:ANY')]" />
 			<munit-tools:verify-call doc:name="Verify Status Code" doc:id="0fec2664-b62f-4830-aaba-86da81573312" processor="set-variable" times="1" >
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="af97ab80-2f23-4028-a1a6-605608be43a4" attributeName="doc:id" />
