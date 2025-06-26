@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="redis-flows-test-suite.xml" />
+	<munit:test name="set-redis-subflow-success-test" doc:id="a6a5df57-6dc2-4f0f-8eb1-ef7f618c20b3">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Set Redis Cache" doc:id="77c15160-6392-49ba-b007-04b6e4cd5cf3" processor="redis:set">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="2bedc43a-3c8c-4801-8914-6a5028865c86" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://setredissubflowsuccesstest/mock_payload.dwl')]" mediaType="text/plain" encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://setredissubflowsuccesstest/mock_variable_.dwl')]" />
+						<munit-tools:variable key="redisKey" value="#[output application/java --- readUrl('classpath://setredissubflowsuccesstest/mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Input" doc:id="c9b5584e-1709-4503-a66e-299ce11d5931">
+				<munit:payload value="#[output application/json --- readUrl('classpath://setredissubflowsuccesstest/set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://setredissubflowsuccesstest/set-event_attributes.dwl')]" />
+				<munit:variables>
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://setredissubflowsuccesstest/set-event_variable_.dwl')]" />
+					<munit:variable key="redisKey" value="#[output application/java --- readUrl('classpath://setredissubflowsuccesstest/set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to set-redis-subflow" doc:id="b4b780d4-6202-4300-8bae-4662654212d3" name="set-redis-subflow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="33f8b649-cee7-4da7-accb-97af9e9e6c7f" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import setredissubflowsuccesstest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify END- Set Redis" doc:id="ee054622-2aa4-415e-8b2c-693b5cb2faa9" processor="logger" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="954fd2d6-fb3b-4c7e-9d15-2561668b39a1" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="get-redis-subflow-success-test" doc:id="6b9c302d-8ac7-43ea-bdc8-103c53184a38">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Get Redis Cache" doc:id="cd845551-dd25-4136-ae51-80ca60a5f099" processor="redis:get">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="b9db12b8-797d-47c1-af9d-74a680bb42d9" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://getredissubflowsuccesstest/mock_payload.dwl')]" encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getredissubflowsuccesstest/mock_variable_.dwl')]" />
+						<munit-tools:variable key="redisKey" value="#[output application/java --- readUrl('classpath://getredissubflowsuccesstest/mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Input" doc:id="5df0bf74-2a4a-4c56-9c7f-c9e01e8d7c14">
+				<munit:payload value="#[readUrl('classpath://getredissubflowsuccesstest/set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getredissubflowsuccesstest/set-event_attributes.dwl')]" />
+				<munit:variables>
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getredissubflowsuccesstest/set-event_variable_.dwl')]" />
+					<munit:variable key="redisKey" value="#[output application/java --- readUrl('classpath://getredissubflowsuccesstest/set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to get-redis-subflow" doc:id="abb0ce94-4e8e-4dad-95e0-a8e2d451367f" name="get-redis-subflow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="af8378d6-9d52-419a-b423-1927ac779135" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getredissubflowsuccesstest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify END - Get Redis" doc:id="0a144b08-4886-4585-ab81-49cfca1dc740" processor="logger" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0745e60b-ea55-485f-9080-e37410bd580a" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+</mule>
