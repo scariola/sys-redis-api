@@ -15,11 +15,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			doc:name="START - Redis State Cache Request"
 			doc:id="c7479b18-be6d-43c8-823c-454ef88a8389"
 			message="START - Redis State Cache Request" />
-		<set-variable
-			value="#['spectre-freefb-' ++ attributes.uriParams.msisdn]"
-			doc:name="redisKey"
-			doc:id="e1fd827b-0a57-4bf4-952f-877151d80ffe"
-			variableName="redisKey" />
+		<ee:transform
+			doc:name="var-redisKey"
+			doc:id="77185173-513c-4e31-96c4-20eb513a0c5e">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="redisKey"><![CDATA['spectre-freefb-' ++ attributes.uriParams.msisdn]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
 		<flow-ref
 			doc:name="get-redis-subflow"
 			doc:id="74a80ec7-28fe-4104-8080-63e87389055c"
@@ -79,11 +83,15 @@ output application/json
 			doc:name="START -Update Redis State Cache Request"
 			doc:id="664f6feb-4cc8-4348-9237-9ac64b5a40c4"
 			message="START -Update Redis State Cache Request" />
-		<set-variable
-			value="#['spectre-freefb-' ++ attributes.uriParams.msisdn]"
-			doc:name="redisKey"
-			doc:id="95bc1bbc-9262-4309-a3d4-7dcb3dce5104"
-			variableName="redisKey" />
+		<ee:transform
+			doc:name="var-redisKey"
+			doc:id="ef70937e-9cff-4d37-ae9d-aab543f7d717">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="redisKey"><![CDATA['spectre-freefb-' ++ attributes.uriParams.msisdn]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
 		<flow-ref
 			doc:name="get-redis-subflow"
 			doc:id="3014fba1-beea-4fed-ab54-5829c10ca936"
