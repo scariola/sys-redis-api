@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:redis="http://www.mulesoft.org/schema/mule/redis"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/redis/current/mule-redis.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow
+		name="impl-get-brand-flow"
+		doc:id="7b6e8c05-697b-44e3-8661-c5735c1c5fa0">
+		<logger
+			level="INFO"
+			doc:name="START - Redis Brand Request"
+			doc:id="76d223ea-7733-4475-b485-790480dcaf64"
+			message="START - Redis Brand  Request" />
+		<ee:transform
+			doc:name="var-redisKey"
+			doc:id="bae53617-701d-40ad-9e46-f3aaa478e500">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="redisKey"><![CDATA['bridge-' ++ attributes.uriParams.prefix]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref
+			doc:name="get-redis-subflow"
+			doc:id="887d86b8-bf5b-47f3-9228-52a5578660f6"
+			name="get-redis-subflow" />
+		<choice
+			doc:name="CONTAINS brandID?"
+			doc:id="c97238b6-1a84-4eaf-9006-79c093b85817">
+			<when expression="#[!isEmpty(payload)]">
+				<ee:transform
+					doc:name="Redis Response to API Response"
+					doc:id="6ac1b978-e34d-4518-b4ea-94315fa41eb7">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+var result = read(payload,'application/json')
+---
+{
+  "x-event-id":	correlationId,	
+  "x-event-code": 1005,
+  "x-event-msg": "Success",
+  "result": result
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise>
+				<ee:transform
+					doc:name="Redis Response to API Response (No Key Found)"
+					doc:id="86240edc-45c5-4591-abf8-03312c1553de">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+
+---
+{
+  "x-event-id":	correlationId,	
+  "x-event-code": 1005,
+  "x-event-msg": "No Key Found!",
+  "result": {}
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger
+			level="INFO"
+			doc:name="END- Redis Brand Request"
+			doc:id="f3a62236-8888-425b-95b3-436f3f2451a7"
+			message="END- Redis Brand  Request" />
+		<error-handler ref="sys-redis-api_Shared_Error_Handler" />
+
+
+	</flow>
+
+
+	<flow
+		name="impl-post-brand-flow"
+		doc:id="2c087806-9fe8-4c6c-9b47-36afe9fa2861">
+		<logger
+			level="INFO"
+			doc:name="START -Add Redis Brand Cache Request"
+			doc:id="bfc183fa-929d-4c0d-a92c-81dd9dfdef57"
+			message="START -Add Redis Brand Request" />
+		<ee:transform
+			doc:name="var-redisKey"
+			doc:id="e426ba54-b0d3-4472-9859-c659ab03351b">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="redisKey"><![CDATA['bridge-' ++ payload.prefix]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref
+			doc:name="set-redis-subflow"
+			doc:id="449e25bf-fc29-4d47-825c-9c1ad09a986b"
+			name="set-redis-subflow" />
+		<choice
+			doc:name="IS successful?"
+			doc:id="38b49ccc-aef4-4a23-9659-452cd2bf9b0c">
+			<when expression="#[payload == 'OK']">
+				<ee:transform
+					doc:name="Redis Response to API Response(Success)"
+					doc:id="72aaae5d-8309-4ab7-8e7c-46dd21f1c98f">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+ "x-event-id":	correlationId,	
+ "x-event-code": 1002,
+ "x-event-msg": "Cache Bridge Successful!"
+ }
+ ]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise>
+				<ee:transform
+					doc:name="Redis Response to API Response(Unsuccess)"
+					doc:id="80415d23-cf89-4454-9b22-24f7a8aed08d">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+ "x-event-id":	correlationId,	
+ "x-event-code": 1002,
+ "x-event-msg": "Cache Bridge Unsuccessful!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger
+			level="INFO"
+			doc:name="END -Add Redis Brand Cache Request"
+			doc:id="16d8494b-a01c-4bde-85bf-a8d6a5795eb6"
+			message="END -Add Redis Brand Request" />
+		<error-handler ref="sys-redis-api_Shared_Error_Handler" />
+	</flow>
+
+
+</mule>

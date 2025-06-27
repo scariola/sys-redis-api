@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracing="http://www.mulesoft.org/schema/mule/tracing"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/tracing/current/mule-tracing.xsd">
+	<munit:config name="Impl-redis-state-flows-test-suite.xml" />
+	<munit:test name="impl-get-state-flow-success-test"
+		doc:id="8b42fe51-8353-423c-81c4-c21542bb52df">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock get-redis-subflow"
+				doc:id="e2e7b090-c857-47ce-b9be-f678518085d0" processor="flow-ref">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="74a80ec7-28fe-4104-8080-63e87389055c"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value='#[output application/json --- "{\n  \"state\": 1\n}"]'
+						mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:variables>
+						<munit-tools:variable key="redisKey"
+							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
+							mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="526054d3-fa83-41b3-bb91-a14154c7bc9c">
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-get-state.dwl')]" />
+			</munit:set-event>
+			<tracing:with-correlation-id
+				doc:name="With CorrelationID"
+				doc:id="1964dd91-1f49-4519-9fb2-0d5f4dc17c27"
+				correlationId='#["123"]'>
+				<flow-ref doc:name="Flow-ref to impl-get-state-flow"
+					doc:id="a70dac0a-8870-4a37-ae7d-2a1889097f47"
+					name="impl-get-state-flow" />
+			</tracing:with-correlation-id>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload"
+				doc:id="b9aed829-a06c-47cf-9dfa-fd63b6930b8d"
+				message="The payload does not match">
+				<munit-tools:that><![CDATA[#[%dw 2.0
+import * from dw::test::Asserts
+---
+payload must equalTo({
+  "x-event-id": "123",
+  "x-event-code": 1005,
+  "x-event-msg": "Success",
+  "result": {
+    "state": 1
+  }
+})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call
+				doc:name="Verify END- Redis State Cache Request"
+				doc:id="f9bdf022-33a4-4464-9ff4-6e0cf25a285b" processor="logger"
+				times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="861c4b49-dee3-4211-adb2-98cf34381465"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="impl-get-state-flow-no-key-found-test"
+		doc:id="fa6c1b72-cec4-479d-beea-939be7eeaaee">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock get-redis-subflow"
+				doc:id="b7b28290-2f30-4a98-a87f-1dbd5725d883" processor="flow-ref">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="74a80ec7-28fe-4104-8080-63e87389055c"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]"
+						encoding="UTF-8" />
+					<munit-tools:variables>
+						<munit-tools:variable key="redisKey"
+							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
+							mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="94c8b64e-99d8-4dda-b45f-57bc40779c98">
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-get-state.dwl')]" />
+			</munit:set-event>
+			<tracing:with-correlation-id
+				doc:name="With CorrelationID"
+				doc:id="2fb9f1ac-c3d6-4603-b33e-a3f8bb03f733"
+				correlationId='#["123"]'>
+				<flow-ref doc:name="Flow-ref to impl-get-state-flow"
+					doc:id="e62c70cd-c355-46e9-99ba-4dd683f1ddbc"
+					name="impl-get-state-flow" />
+			</tracing:with-correlation-id>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload"
+				doc:id="27886611-9f59-43e4-ba41-22210a882f13"
+				message="The payload does not match">
+				<munit-tools:that><![CDATA[#[%dw 2.0
+import * from dw::test::Asserts
+---
+payload must equalTo({
+  "x-event-id": "123",
+  "x-event-code": 1005,
+  "x-event-msg": "No Key Found!",
+  "result": {}
+})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call
+				doc:name="Verify END- Redis State Cache Request"
+				doc:id="2e2bc860-cd35-483b-829a-3ff75b6f03ef" processor="logger"
+				times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="861c4b49-dee3-4211-adb2-98cf34381465"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="impl-post-state-flow-success-test"
+		doc:id="287aba12-809c-4e60-be17-bf7fd229d632">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock get-redis-subflow"
+				doc:id="91afe730-b915-42a8-9599-2c14c0881566" processor="flow-ref">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="3014fba1-beea-4fed-ab54-5829c10ca936"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value='#["OK"]'
+						mediaType="text/plain" encoding="UTF-8" />
+					<munit-tools:variables>
+						<munit-tools:variable key="redisKey"
+							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
+							mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="8069ce70-5586-47e9-b304-865d1119968c">
+				<munit:payload
+					value="#[output application/json --- readUrl('classpath://dw/events/post-state-request.dwl')]"
+					encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-post-state.dwl')]" />
+			</munit:set-event>
+			<tracing:with-correlation-id
+				doc:name="With CorrelationID"
+				doc:id="4e424242-12ab-4e1c-9f76-eba3d88d9db6"
+				correlationId='#["s12312312312312312"]'>
+				<flow-ref doc:name="Flow-ref to impl-post-state-flow"
+					doc:id="4c3feff1-51d5-4e3d-86f4-119f14055375"
+					name="impl-post-state-flow" />
+			</tracing:with-correlation-id>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload"
+				doc:id="c1b80088-e975-4b7c-adb6-53170ac627a4"
+				message="The payload does not match">
+				<munit-tools:that><![CDATA[#[%dw 2.0
+import * from dw::test::Asserts
+---
+payload must equalTo({
+  "x-event-id": "s12312312312312312",
+  "x-event-code": 1002,
+   "x-event-msg": "Cache State Successful!"
+})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call
+				doc:name="Verify END-Update Redis State Cache Request"
+				doc:id="901b5424-0e86-4cfd-aaaa-124ed00e065a" processor="logger"
+				times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="808382d8-328a-4a6e-829a-2b15e463f070"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="impl-post-state-flow-unsuccessful-test"
+		doc:id="3657d7ba-8477-47f8-ad78-3a48a22f6175">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock get-redis-subflow"
+				doc:id="dcafb70c-97d1-4802-aefd-45ccd57e0d71" processor="flow-ref">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="3014fba1-beea-4fed-ab54-5829c10ca936"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value='#["NOT OK"]'
+						mediaType="text/plain" encoding="UTF-8" />
+					<munit-tools:variables>
+						<munit-tools:variable key="redisKey"
+							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
+							mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="c0061e53-5ce8-49cb-a4f8-c60313646bc2">
+				<munit:payload
+					value="#[output application/json --- readUrl('classpath://dw/events/post-state-request.dwl')]"
+					encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-post-state.dwl')]" />
+			</munit:set-event>
+			<tracing:with-correlation-id
+				doc:name="With CorrelationID"
+				doc:id="5eaf00b9-c17d-4cfd-b455-de44cfd14c5e"
+				correlationId='#["s12312312312312312"]'>
+				<flow-ref doc:name="Flow-ref to impl-post-state-flow"
+					doc:id="902931ff-34e9-4704-a533-6a3992a88a85"
+					name="impl-post-state-flow" />
+			</tracing:with-correlation-id>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload"
+				doc:id="623bc5f9-abc5-44a7-bf37-94529894475b"
+				message="The payload does not match">
+				<munit-tools:that><![CDATA[#[%dw 2.0
+import * from dw::test::Asserts
+---
+payload must equalTo({
+  "x-event-id": "s12312312312312312",
+  "x-event-code": 1002,
+  "x-event-msg": "Cache State Unsuccessful!"
+})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call
+				doc:name="Verify END-Update Redis State Cache Request"
+				doc:id="ad571289-d86e-45ce-92d7-d2e71e62ae02" processor="logger"
+				times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="808382d8-328a-4a6e-829a-2b15e463f070"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="impl-get-state-flow-api_Shared_Error_Handler-redis-connectivity-test"
+		doc:id="64b16fe6-0cb4-457f-8e17-77fbe13d8d1c">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock get-redis-subflow"
+				doc:id="4f128a1d-9335-4f55-b864-e28bbb2c9868" processor="redis:get">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="b9db12b8-797d-47c1-af9d-74a680bb42d9"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="REDIS:CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="fb346dea-d2b5-4913-8270-05fd4f09642d">
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-get-state.dwl')]" />
+			</munit:set-event>
+			<try doc:name="Try" doc:id="4a619f64-a20b-4136-9f7e-d98be819bf08">
+				<flow-ref doc:name="Flow-ref to impl-get-state-flow"
+					doc:id="aa4c66d7-c930-4aec-9706-c8a6dae78594"
+					name="impl-get-state-flow" />
+				<error-handler>
+					<on-error-continue enableNotifications="true"
+						logException="true" doc:name="On Error Continue"
+						doc:id="02c3cec2-455e-47d6-a14e-8176170957a6">
+						<logger level="INFO" doc:name="Logger"
+							doc:id="1264f056-17b1-493c-b2aa-b919dcca07bc" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that
+				doc:name="Assert Redis Connectivity"
+				doc:id="fc85177f-738e-4fc3-b535-593721f704c7"
+				is="#[MunitTools::equalTo('REDIS:CONNECTIVITY')]"
+				expression="#[payload.result.'error-type']" />
+			<munit-tools:verify-call
+				doc:name="Verify Status Code"
+				doc:id="f7f703b1-9812-4d39-abfa-202185b095d5"
+				processor="set-variable" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="fde4f4b1-536c-4d87-b368-705d8e4b271e"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="impl-put-state-flow-api_Shared_Error_Handler-redis-connectivity-test"
+		doc:id="c2be6963-8c64-4c24-866e-3427d222a4bb">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock set-redis-subflow"
+				doc:id="44c68800-b00e-47a8-bde8-855203c25bab" processor="redis:set">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="2bedc43a-3c8c-4801-8914-6a5028865c86"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="REDIS:CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="a27cabe8-7a8d-4280-b237-3623849c7a09">
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-get-state.dwl')]" />
+			</munit:set-event>
+			<try doc:name="Try" doc:id="f7f3fcfe-01aa-405e-bdf2-0d59d52845e6">
+				<flow-ref doc:name="Flow-ref to impl-post-state-flow"
+					doc:id="d6f97eba-bd38-459f-8e4f-ddac5b1b3d2d"
+					name="impl-post-state-flow" />
+				<error-handler>
+					<on-error-continue enableNotifications="true"
+						logException="true" doc:name="On Error Continue"
+						doc:id="97434846-83b6-425f-b610-ce65ece057fb">
+						<logger level="INFO" doc:name="Logger"
+							doc:id="31a0040a-5c62-4f9d-bd5b-299655c1d5be" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that
+				doc:name="Assert Redis Connectivity"
+				doc:id="f28e94b6-5d3c-4e62-bb9a-0455371b54a1"
+				expression="#[payload.result.'error-type']"
+				is="#[MunitTools::equalTo('REDIS:CONNECTIVITY')]" />
+			<munit-tools:verify-call
+				doc:name="Verify Status Code"
+				doc:id="7f997a03-a841-4120-9291-525bdd372808"
+				processor="set-variable" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="fde4f4b1-536c-4d87-b368-705d8e4b271e"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="impl-get-state-flow-api_Shared_Error_Handler-redis-any-test"
+		doc:id="1a95e189-b7b9-4d1b-98a9-18bd35bb18f5">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock get-redis-subflow"
+				doc:id="20d867e5-a2a8-4d31-8868-8df79375ed93" processor="redis:get">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="b9db12b8-797d-47c1-af9d-74a680bb42d9"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="ANY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="0c93455c-62f9-44eb-89cb-baddd6693f47">
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-get-state.dwl')]" />
+			</munit:set-event>
+			<try doc:name="Try" doc:id="65df041d-9503-406a-ace0-43e27466bdca">
+				<flow-ref doc:name="Flow-ref to impl-get-state-flow"
+					doc:id="3e6a924b-6810-4776-b0a8-2e379ebe2f94"
+					name="impl-get-state-flow" />
+				<error-handler>
+					<on-error-continue enableNotifications="true"
+						logException="true" doc:name="On Error Continue"
+						doc:id="09f11b80-9192-43a3-b9a1-58047d5393e5">
+						<logger level="INFO" doc:name="Logger"
+							doc:id="5f1e5891-86e3-4245-9390-e7a87963e2aa" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that
+				doc:name="Assert Any Error"
+				doc:id="9595ffe7-455f-41cd-94d6-75b639b4970a"
+				expression="#[payload.result.'error-type']"
+				is="#[MunitTools::equalTo('MULE:ANY')]" />
+			<munit-tools:verify-call
+				doc:name="Verify Status Code"
+				doc:id="adc82718-d24c-4695-82ff-b55ae1661d13"
+				processor="set-variable" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="af97ab80-2f23-4028-a1a6-605608be43a4"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test
+		name="impl-put-state-flow-api_Shared_Error_Handler-any-test"
+		doc:id="bd4ac224-3762-4aa9-bf13-2041df42b8a1">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock set-redis-subflow"
+				doc:id="d013d3e2-bcb7-42c6-875b-90b99b892486" processor="redis:set">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="2bedc43a-3c8c-4801-8914-6a5028865c86"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="ANY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="40ef1412-8df6-499d-b435-618e11dda203">
+				<munit:payload
+					value="#[output application/json --- readUrl('classpath://dw/events/post-state-request.dwl')]"
+					encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-post-state.dwl')]" />
+			</munit:set-event>
+			<try doc:name="Try" doc:id="37f36386-b859-4d9f-bd2e-4391721f555a">
+				<flow-ref doc:name="Flow-ref to impl-post-state-flow"
+					doc:id="d96073e6-3eb3-4f2c-a51d-2e0f0095508c"
+					name="impl-post-state-flow" />
+				<error-handler>
+					<on-error-continue enableNotifications="true"
+						logException="true" doc:name="On Error Continue"
+						doc:id="4e7aef37-1add-4050-bf7c-c2ddc3f6198b">
+						<logger level="INFO" doc:name="Logger"
+							doc:id="6c1e8c10-0293-4d49-b6c7-f22df212009d" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that
+				doc:name="Assert Any Error"
+				doc:id="42b9f525-5bbb-459c-a40c-6bd1eaa59ec2"
+				expression="#[payload.result.'error-type']"
+				is="#[MunitTools::equalTo('MULE:ANY')]" />
+			<munit-tools:verify-call
+				doc:name="Verify Status Code"
+				doc:id="0fec2664-b62f-4830-aaba-86da81573312"
+				processor="set-variable" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="af97ab80-2f23-4028-a1a6-605608be43a4"
+						attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

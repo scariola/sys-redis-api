@@ -1,1 +1,0 @@
-"{\n  \"prefix\": \"92742\",\n  \"brand-id\": 1,\n  \"brand-name\": \"TM\"\n}"

@@ -26,14 +26,14 @@
 		<error-handler ref="sys-redis-api_APIKIT_Error_Handler" />
 	</flow>
 	<flow
-		name="put:\state\(msisdn):application\json:sys-redis-api-config"
+		name="post:\state\(msisdn):application\json:sys-redis-api-config"
 		doc:id="57258c8d-612e-41da-ab34-ec8be24018ef">
 		<logger level="INFO" doc:name="START - PUT /state/{msisdn}"
 			doc:id="3f4e0b6c-dc9c-492d-8e14-4af87ecebc40"
 			message='#["[START] - PUT /state/{msisdn} [msisdn:" ++ attributes.uriParams.msisdn ++"]"]' />
-		<flow-ref doc:name="impl-put-redis-state-flow"
+		<flow-ref doc:name="impl-post-state-flow"
 			doc:id="d89a55e1-3393-49ff-8ea8-ad32d8f067c0"
-			name="impl-put-redis-state-flow" />
+			name="impl-post-state-flow" />
 		<logger level="INFO" doc:name="END - PUT /state/{msisdn}"
 			doc:id="8722aed7-da6b-4901-a9d4-3ec1097171e9"
 			message='#["[END] - PUT /state/{msisdn} [result: " ++ payload."x-event-msg" ++ "]"]' />
@@ -43,21 +43,21 @@
 		<logger level="INFO" doc:name="START - GET /state/{msisdn}"
 			doc:id="a4ada2af-ce8b-4f28-969e-352bcd2f9a5b"
 			message='#["[START] - GET /state/{msisdn} [msisdn:" ++ attributes.uriParams.msisdn ++"]"]' />
-		<flow-ref doc:name="impl-get-redis-state-flow"
+		<flow-ref doc:name="impl-get-state-flow"
 			doc:id="b8b48081-04a9-4d52-96f2-d84a24020ae8"
-			name="impl-get-redis-state-flow" />
+			name="impl-get-state-flow" />
 		<logger level="INFO" doc:name="END - GET /state/{msisdn}"
 			doc:id="2ffc0581-9f52-4c4c-bb19-0d2961fdf2be"
-			message='#["[END] -  GET /state/{msisdn} [state: " ++ payload.result.state ++ "]"]' />
+			message='#["[END] -  GET /state/{msisdn} [State Retrieved Successfully]"]' />
 	</flow>
 	<flow name="get:\brand\(prefix):sys-redis-api-config"
 		doc:id="c270d9b6-34a6-467c-9f5d-b5eefcda1f47">
 		<logger level="INFO" doc:name="START - GET /brand/{prefix}"
 			doc:id="293cbeae-b5f3-4416-87e7-3e427ca33888"
 			message='#["[START] - GET /brand/{prefix} " ++ write(payload, "application/json")]' />
-		<flow-ref doc:name="impl-get-redis-brand-flow"
+		<flow-ref doc:name="impl-get-brand-flow"
 			doc:id="f1dce388-f774-422e-8ebd-4cbc996adf84"
-			name="impl-get-redis-brand-flow" />
+			name="impl-get-brand-flow" />
 		<logger level="INFO" doc:name="END - GET /brand/{prefix}"
 			doc:id="2a7f1529-e659-4ce4-8ab4-e4fcd3f8ca82"
 			message='#["[END] -  GET /brand/{prefix} [payload: " ++ write(payload.result, "application/json") ++ "]"]' />
@@ -67,9 +67,9 @@
 		<logger level="INFO" doc:name="START - POST /brand"
 			doc:id="1cdddd0d-da0f-4155-9059-4ac38d3807ad"
 			message='#["[START] - GET /brand/{prefix} [payload: " ++ write(payload, "application/json") ++ "]"]' />
-		<flow-ref doc:name="impl-post-redis-brand-flow"
+		<flow-ref doc:name="impl-post-brand-flow"
 			doc:id="fceb4e78-3ca2-41d3-b6b4-77a532756af7"
-			name="impl-post-redis-brand-flow" />
+			name="impl-post-brand-flow" />
 		<logger level="INFO" doc:name="END - POST /brand"
 			doc:id="01aa6a21-386b-4133-af53-9a36b4d3b3dc"
 			message='#["[END] - POST /brand [result: " ++ payload."x-event-msg" ++ "]"]' />

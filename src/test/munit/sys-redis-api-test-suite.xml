@@ -1,169 +1,267 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xsi:schemaLocation="
 		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<munit:config name="sys-redis-api-test-suite.xml" />
-	<munit:test name="put:\state\(msisdn):application\json:sys-redis-api-config-sucess-test" doc:id="048e8c81-94ee-4b5f-b25e-afa7622d97b8" >
-		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mock impl-put-redis-state-flow" doc:id="cf4e4d4a-ecd4-4037-99f0-26238afedf30" processor="flow-ref">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="d89a55e1-3393-49ff-8ea8-ad32d8f067c0" attributeName="doc:id" />
+	<munit:test
+		name="get:\state\(msisdn):sys-redis-api-config-success-test"
+		doc:id="577a5bb6-6931-4d41-bb57-d91fd24719b5">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock impl-get-redis-state-flow"
+				doc:id="fc0c53bd-d373-4838-9c01-66b6b86c20cd" processor="flow-ref">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="b8b48081-04a9-4d52-96f2-d84a24020ae8"
+						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return >
-					<munit-tools:payload value="#[output application/json --- readUrl('classpath://putstatemsisdnapplicationjsonsysredisapiconfigsucesstest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:variables >
-						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://putstatemsisdnapplicationjsonsysredisapiconfigsucesstest\mock_variable_.dwl')]" />
-						<munit-tools:variable key="redisKey" value="#[output application/java --- readUrl('classpath://putstatemsisdnapplicationjsonsysredisapiconfigsucesstest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value="#[output application/json --- readUrl('classpath://dw/mocks/get-state-response.dwl')]"
+						mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:variables>
+						<munit-tools:variable key="redisKey"
+							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
+							mediaType="application/java" encoding="UTF-8" />
 					</munit-tools:variables>
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
-		<munit:execution >
-			<munit:set-event doc:name="Set Input" doc:id="3323f971-acdc-4e6c-b568-e13612a47009">
-				<munit:payload value="#[output application/json --- readUrl('classpath://putstatemsisdnapplicationjsonsysredisapiconfigsucesstest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
-				<munit:attributes value="#[readUrl('classpath://putstatemsisdnapplicationjsonsysredisapiconfigsucesstest\set-event_attributes.dwl')]" />
-				<munit:variables>
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://putstatemsisdnapplicationjsonsysredisapiconfigsucesstest\set-event_variable_.dwl')]" />
-				</munit:variables>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="837821b5-cf71-435d-9af0-26af75ee13a0">
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-get-state.dwl')]" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to put:\state\(msisdn):application\json:sys-redis-api-config" doc:id="d485870a-0a35-434a-9f97-f348b37069ab" name="put:\state\(msisdn):application\json:sys-redis-api-config"/>
+			<flow-ref
+				doc:name="Flow-ref to get:\state\(msisdn):sys-redis-api-config"
+				doc:id="2f0f7df7-56b2-4ed3-ab2c-aead62bfa8e4"
+				name="get:\state\(msisdn):sys-redis-api-config" />
 		</munit:execution>
-		<munit:validation >
-			<munit-tools:assert doc:name="Assert payload" doc:id="c47bcf6c-ea29-4f74-a340-cac7279de05a" message="The payload does not match">
-				<munit-tools:that ><![CDATA[#[%dw 2.0
-import putstatemsisdnapplicationjsonsysredisapiconfigsucesstest::assert_expression_payload
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload"
+				doc:id="1afe5e61-c5a2-4fee-b9a3-6105aecabb77"
+				message="The payload does not match">
+				<munit-tools:that><![CDATA[#[%dw 2.0
+import * from dw::test::Asserts
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "x-event-id": "123",
+  "x-event-code": 1005,
+  "x-event-msg": "Success",
+  "result": {
+    "state": 1
+  }
+})]]]></munit-tools:that>
 			</munit-tools:assert>
-			<munit-tools:verify-call doc:name="Verify END - PUT /state/{msisdn}" doc:id="58e0ebe4-afdf-49c9-9966-16e467dbb8d2" processor="logger" times="1">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="8722aed7-da6b-4901-a9d4-3ec1097171e9" attributeName="doc:id" />
+			<munit-tools:verify-call
+				doc:name="Verify END - GET /state/{msisdn}"
+				doc:id="10db08f9-589f-4605-a65f-03b4cc5a76f6" processor="logger"
+				times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="2ffc0581-9f52-4c4c-bb19-0d2961fdf2be"
+						attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="get:\state\(msisdn):sys-redis-api-config-success-test" doc:id="577a5bb6-6931-4d41-bb57-d91fd24719b5" >
-		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mock impl-get-redis-state-flow" doc:id="fc0c53bd-d373-4838-9c01-66b6b86c20cd" processor="flow-ref">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="b8b48081-04a9-4d52-96f2-d84a24020ae8" attributeName="doc:id" />
+	<munit:test
+		name="get:\brand\(prefix):sys-redis-api-config-success-test"
+		doc:id="9870700c-1703-49b9-b4db-3d2f986449ad">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock impl-get-redis-brand-flow"
+				doc:id="909f1a3f-8bba-48d4-94f7-66c6a5ba5eae" processor="flow-ref">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="f1dce388-f774-422e-8ebd-4cbc996adf84"
+						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return >
-					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getstatemsisdnsysredisapiconfigsuccesstest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:variables >
-						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getstatemsisdnsysredisapiconfigsuccesstest\mock_variable_.dwl')]" />
-						<munit-tools:variable key="redisKey" value="#[output application/java --- readUrl('classpath://getstatemsisdnsysredisapiconfigsuccesstest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value="#[output application/json --- readUrl('classpath://dw/mocks/get-brand-response.dwl')]"
+						mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:variables>
+						<munit-tools:variable key="redisKey"
+							value="#[output application/java --- readUrl('classpath://dw/mocks/var-brand-key.dwl')]"
+							mediaType="application/java" encoding="UTF-8" />
 					</munit-tools:variables>
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
-		<munit:execution >
-			<munit:set-event doc:name="Set Input" doc:id="cd624342-60c7-4bad-ac5c-c2d2b66559d2">
-				<munit:payload value="#[readUrl('classpath://getstatemsisdnsysredisapiconfigsuccesstest\set-event_payload.dwl')]" encoding="UTF-8" />
-				<munit:attributes value="#[readUrl('classpath://getstatemsisdnsysredisapiconfigsuccesstest\set-event_attributes.dwl')]" />
-				<munit:variables>
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getstatemsisdnsysredisapiconfigsuccesstest\set-event_variable_.dwl')]" />
-				</munit:variables>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="97f2acf7-6c2a-4cc4-9ffd-a3de300a4763">
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-get-brand.dwl')]" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to get:\state\(msisdn):sys-redis-api-config" doc:id="2f0f7df7-56b2-4ed3-ab2c-aead62bfa8e4" name="get:\state\(msisdn):sys-redis-api-config"/>
+			<flow-ref
+				doc:name="Flow-ref to get:\brand\(prefix):sys-redis-api-config"
+				doc:id="04f8b745-fd06-4c97-ad4b-0d8cd2539c92"
+				name="get:\brand\(prefix):sys-redis-api-config" />
 		</munit:execution>
-		<munit:validation >
-			<munit-tools:assert doc:name="Assert payload" doc:id="1afe5e61-c5a2-4fee-b9a3-6105aecabb77" message="The payload does not match">
-				<munit-tools:that ><![CDATA[#[%dw 2.0
-import getstatemsisdnsysredisapiconfigsuccesstest::assert_expression_payload
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload"
+				doc:id="905e961b-88fa-4a96-a948-3f33451183ed"
+				message="The payload does not match">
+				<munit-tools:that><![CDATA[#[%dw 2.0
+import * from dw::test::Asserts
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+	"x-event-id": "s12312312312312312",
+    "x-event-code": 1005,
+    "x-event-msg": "Success",
+    "results": {
+        "prefix": "92767",
+        "brand-id": "1",
+        "brand-name": "TM"
+    }
+})]]]></munit-tools:that>
 			</munit-tools:assert>
-			<munit-tools:verify-call doc:name="Verify END - GET /state/{msisdn}" doc:id="10db08f9-589f-4605-a65f-03b4cc5a76f6" processor="logger" times="1">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="2ffc0581-9f52-4c4c-bb19-0d2961fdf2be" attributeName="doc:id" />
+			<munit-tools:verify-call
+				doc:name="Verify END - GET /brand/{prefix}"
+				doc:id="ad4c4cd7-98e9-4d6e-bbe6-134d4cc6b3dd" processor="logger"
+				times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="2a7f1529-e659-4ce4-8ab4-e4fcd3f8ca82"
+						attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="get:\brand\(prefix):sys-redis-api-config-success-test" doc:id="9870700c-1703-49b9-b4db-3d2f986449ad" >
-		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mock impl-get-redis-brand-flow" doc:id="909f1a3f-8bba-48d4-94f7-66c6a5ba5eae" processor="flow-ref">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="f1dce388-f774-422e-8ebd-4cbc996adf84" attributeName="doc:id" />
+	<munit:test
+		name="post:\brand:application\json:sys-redis-api-config-success-test"
+		doc:id="966cd0c7-f462-4565-83f1-3515793efcb9">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock impl-post-redis-brand-flow"
+				doc:id="c78e0137-bb4e-4aea-b74e-5a91f75f34ff" processor="flow-ref">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="fceb4e78-3ca2-41d3-b6b4-77a532756af7"
+						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return >
-					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getbrandprefixsysredisapiconfigsuccesstest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:variables >
-						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getbrandprefixsysredisapiconfigsuccesstest\mock_variable_.dwl')]" />
-						<munit-tools:variable key="redisKey" value="#[output application/java --- readUrl('classpath://getbrandprefixsysredisapiconfigsuccesstest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value="#[output application/json --- readUrl('classpath://dw/mocks/post-brand-response.dwl')]"
+						mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:variables>
+						<munit-tools:variable key="redisKey"
+							value="#[output application/java --- readUrl('classpath://dw/mocks/var-brand-key.dwl')]"
+							mediaType="application/json" encoding="UTF-8" />
 					</munit-tools:variables>
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
-		<munit:execution >
-			<munit:set-event doc:name="Set Input" doc:id="8cec7f4b-9f04-40cc-86a3-5979cafe8365">
-				<munit:payload value="#[readUrl('classpath://getbrandprefixsysredisapiconfigsuccesstest\set-event_payload.dwl')]" encoding="UTF-8" />
-				<munit:attributes value="#[readUrl('classpath://getbrandprefixsysredisapiconfigsuccesstest\set-event_attributes.dwl')]" />
-				<munit:variables>
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getbrandprefixsysredisapiconfigsuccesstest\set-event_variable_.dwl')]" />
-				</munit:variables>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="01e57b22-03bc-4783-989b-8d459bbe02e2">
+				<munit:payload
+					value="#[output application/json --- readUrl('classpath://dw/events/post-brand-request.dwl')]"
+					encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-post-brand.dwl')]" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to get:\brand\(prefix):sys-redis-api-config" doc:id="04f8b745-fd06-4c97-ad4b-0d8cd2539c92" name="get:\brand\(prefix):sys-redis-api-config"/>
+			<flow-ref
+				doc:name="Flow-ref to post:\brand:application\json:sys-redis-api-config"
+				doc:id="3c531d16-3ffe-4f50-ba00-d109d1ab95ff"
+				name="post:\brand:application\json:sys-redis-api-config" />
 		</munit:execution>
-		<munit:validation >
-			<munit-tools:assert doc:name="Assert payload" doc:id="905e961b-88fa-4a96-a948-3f33451183ed" message="The payload does not match">
-				<munit-tools:that ><![CDATA[#[%dw 2.0
-import getbrandprefixsysredisapiconfigsuccesstest::assert_expression_payload
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload"
+				doc:id="b54a8b68-a3ef-47ea-82a2-8e13f4e46508"
+				message="The payload does not match">
+				<munit-tools:that><![CDATA[#[%dw 2.0
+import * from dw::test::Asserts
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "x-event-id": "s12312312312312312",
+  "x-event-code": 1002,
+  "x-event-msg": "Cache Bridge Successful!"
+})]]]></munit-tools:that>
 			</munit-tools:assert>
-			<munit-tools:verify-call doc:name="Verify END - GET /brand/{prefix}" doc:id="ad4c4cd7-98e9-4d6e-bbe6-134d4cc6b3dd" processor="logger" times="1">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="2a7f1529-e659-4ce4-8ab4-e4fcd3f8ca82" attributeName="doc:id" />
+			<munit-tools:verify-call
+				doc:name="Verify END - POST /brand"
+				doc:id="453bf579-df7b-4598-ad64-ca08ae990649" processor="logger"
+				times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="01aa6a21-386b-4133-af53-9a36b4d3b3dc"
+						attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="post:\brand:application\json:sys-redis-api-config-success-test" doc:id="966cd0c7-f462-4565-83f1-3515793efcb9" >
-		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mock impl-post-redis-brand-flow" doc:id="c78e0137-bb4e-4aea-b74e-5a91f75f34ff" processor="flow-ref">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="fceb4e78-3ca2-41d3-b6b4-77a532756af7" attributeName="doc:id" />
+	<munit:test
+		name="post:\state\(msisdn):application\json:sys-redis-api-config-success-test"
+		doc:id="e274f003-7b5a-4c3e-962f-8411b5111cb3">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock impl-post-state-flow"
+				doc:id="374a7b4c-6e23-42d0-b6a9-f8065d3e1515" processor="flow-ref">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="d89a55e1-3393-49ff-8ea8-ad32d8f067c0"
+						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return >
-					<munit-tools:payload value="#[output application/json --- readUrl('classpath://postbrandapplicationjsonsysredisapiconfigsuccesstest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:variables >
-						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://postbrandapplicationjsonsysredisapiconfigsuccesstest\mock_variable_.dwl')]" />
-						<munit-tools:variable key="redisKey" value="#[output application/json --- readUrl('classpath://postbrandapplicationjsonsysredisapiconfigsuccesstest\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value="#[output application/json --- readUrl('classpath://dw/mocks/post-state-response.dwl')]"
+						mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:variables>
+						<munit-tools:variable key="redisKey"
+							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
+							mediaType="application/java" encoding="UTF-8" />
 					</munit-tools:variables>
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
-		<munit:execution >
-			<munit:set-event doc:name="Set Input" doc:id="01e57b22-03bc-4783-989b-8d459bbe02e2">
-				<munit:payload value="#[output application/json --- readUrl('classpath://postbrandapplicationjsonsysredisapiconfigsuccesstest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
-				<munit:attributes value="#[readUrl('classpath://postbrandapplicationjsonsysredisapiconfigsuccesstest\set-event_attributes.dwl')]" />
-				<munit:variables>
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://postbrandapplicationjsonsysredisapiconfigsuccesstest\set-event_variable_.dwl')]" />
-				</munit:variables>
+		<munit:execution>
+			<munit:set-event doc:name="Set Input"
+				doc:id="dbb4a382-ac88-4c7d-9120-ae8dc6953f9e">
+				<munit:payload
+					value="#[output application/json --- readUrl('classpath://dw/events/post-state-request.dwl')]"
+					encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes
+					value="#[readUrl('classpath://dw/events/attr-post-state.dwl')]" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to post:\brand:application\json:sys-redis-api-config" doc:id="3c531d16-3ffe-4f50-ba00-d109d1ab95ff" name="post:\brand:application\json:sys-redis-api-config"/>
+			<flow-ref
+				doc:name="Flow-ref to post:\state\(msisdn):application\json:sys-redis-api-config"
+				doc:id="1fc5a7ce-bf33-4ec3-9483-6efaad6bfa04"
+				name="post:\state\(msisdn):application\json:sys-redis-api-config" />
 		</munit:execution>
-		<munit:validation >
-			<munit-tools:assert doc:name="Assert payload" doc:id="b54a8b68-a3ef-47ea-82a2-8e13f4e46508" message="The payload does not match">
-				<munit-tools:that ><![CDATA[#[%dw 2.0
-import postbrandapplicationjsonsysredisapiconfigsuccesstest::assert_expression_payload
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert payload"
+				doc:id="1506c1f9-1de9-489e-83e0-7f2157c665f6"
+				message="The payload does not match">
+				<munit-tools:that><![CDATA[#[%dw 2.0
+import * from dw::test::Asserts
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "x-event-id": "s12312312312312312",
+  "x-event-code": 1002,
+  "x-event-msg": "Cache State Successful!"
+})]]]></munit-tools:that>
 			</munit-tools:assert>
-			<munit-tools:verify-call doc:name="Verify END - POST /brand" doc:id="453bf579-df7b-4598-ad64-ca08ae990649" processor="logger" times="1">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="01aa6a21-386b-4133-af53-9a36b4d3b3dc" attributeName="doc:id" />
+			<munit-tools:verify-call
+				doc:name="Verify END - PUT /state/{msisdn}"
+				doc:id="4e0568da-0746-4c19-abc9-d38b9d4c02dc" processor="logger"
+				times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="8722aed7-da6b-4901-a9d4-3ec1097171e9"
+						attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-
-
 </mule>

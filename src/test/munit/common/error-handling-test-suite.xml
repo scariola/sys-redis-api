@@ -17,13 +17,21 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<munit:test
 		name="sys-redis-api-main-apikit-bad-request-test">
 
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock apikit router"
+				doc:id="174af63e-c241-4c09-8cdc-f3d9623a6e12"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="sys-redis-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
 		<munit:execution>
-			<munit:set-event doc:name="Set Event"
-				doc:id="930a7d29-18ca-4144-aefb-04249dc29f7e">
-				<munit:attributes
-					value='#[{&#10;  "headers": {&#10;    "x-correlation-id": "s12312312312312312"&#10;  },&#10;  "listenerPath": "/api/*",&#10; "relativePath": "/api/brand/9172222",&#10;  "version": "HTTP/1.1",&#10;  "method": "GET",&#10;  "scheme": "HTTP",&#10;  "requestPath": "",&#10;  "requestUri": "",&#10;  "rawRequestPath": "/api/brand/9172222",&#10;  "localAddress": "",&#10;  "remoteAddress": ""&#10;}&#10;as Object {&#10;  class: "org.mule.extension.http.api.HttpRequestAttributes"&#10;}]' />
-
-			</munit:set-event>
 			<try doc:name="Try" doc:id="8fad8af9-68fd-43ed-b351-04c1ae1498a7">
 				<flow-ref doc:name="Flow Ref to sys-redis-api-main"
 					doc:id="a883d75c-5ca4-4d73-91dd-f1d17d9e8a0a"
@@ -39,10 +47,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</try>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-equals
-				doc:name="Assert error http status"
-				doc:id="27d63a46-818e-467e-bcb0-1022d53d53f5"
-				actual="#[vars.httpStatus]" expected="400" />
+			<munit-tools:assert-that
+				doc:name="Assert Bad Request"
+				doc:id="0a19001a-21a5-49f0-9169-7b717b003ac8"
+				is="#[MunitTools::equalTo('APIKIT:BAD_REQUEST')]"
+				expression="#[payload.result.'error-type']" />
 			<munit-tools:verify-call
 				doc:name="Verify api kit bad request"
 				doc:id="f7b222eb-2443-4b6b-8ff3-8ed4ad257b1c"
@@ -53,16 +62,24 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
-
-</munit:test>
+	</munit:test>
 	<munit:test name="sys-redis-api-main-apikit-not-found-test"
 		doc:id="0daae4aa-7b72-430f-95ec-3fcfc69a2efa">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock apikit router"
+				doc:id="1c610d5b-ef29-47ef-8ec4-2307a002f4d7"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="sys-redis-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
 		<munit:execution>
-			<munit:set-event doc:name="Set Event"
-				doc:id="45c5cfab-a78f-4add-ad93-e77791c874b9">
-				<munit:attributes
-					value='#[{&#10;  "headers": {&#10;    "x-correlation-id": "s12312312312312312"&#10;  },&#10;  "listenerPath": "/api/*",&#10; "relativePath": "/api/brand/",&#10;  "version": "HTTP/1.1",&#10;  "method": "GET",&#10;  "scheme": "HTTP",&#10;  "requestPath": "",&#10;  "requestUri": "",&#10;  "rawRequestPath": "/api/brand/",&#10;  "localAddress": "",&#10;  "remoteAddress": ""&#10;}&#10;as Object {&#10;  class: "org.mule.extension.http.api.HttpRequestAttributes"&#10;}]' />
-			</munit:set-event>
 			<try doc:name="Try" doc:id="c40653d5-bf9c-48bc-a80a-200e480fade5">
 				<flow-ref doc:name="Flow Ref to sys-redis-api-main"
 					doc:id="ebb8ff4e-dbf2-459c-bd94-802f640f4613"
@@ -78,10 +95,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</try>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-equals
-				doc:name="Assert error http status"
-				doc:id="6f8c2418-6624-4aab-968c-3c1b7556ccb8"
-				actual="#[vars.httpStatus]" expected="404" />
+			<munit-tools:assert-that
+				doc:name="Assert Not Found"
+				doc:id="400c85bd-ea55-4a20-a1f4-335ce7b7c3ea"
+				expression="#[payload.result.'error-type']"
+				is="#[MunitTools::equalTo('APIKIT:NOT_FOUND')]" />
 			<munit-tools:verify-call
 				doc:name="Verify api kit bad request"
 				doc:id="fc983fad-1d51-43db-8cc0-d40049e38338"
@@ -96,12 +114,22 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<munit:test
 		name="sys-redis-api-main-apikit-method-not-allowed"
 		doc:id="9e1681c4-8f09-4bde-a744-0765a3d0acb7">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock apikit router"
+				doc:id="8f536253-adc1-4f3c-ba8d-4e9450e23918"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="sys-redis-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
 		<munit:execution>
-			<munit:set-event doc:name="Set Event"
-				doc:id="80249f64-bdaa-4384-9010-dd30dffa533f">
-				<munit:attributes
-					value='#[{&#10;  "headers": {&#10;    "x-correlation-id": "s12312312312312312"&#10;  },&#10;  "listenerPath": "/api/91722*",&#10; "relativePath": "/api/brand/91722",&#10;  "version": "HTTP/1.1",&#10;  "method": "POST",&#10;  "scheme": "HTTP",&#10;  "requestPath": "",&#10;  "requestUri": "",&#10;  "rawRequestPath": "/api/brand/91722",&#10;  "localAddress": "",&#10;  "remoteAddress": ""&#10;}&#10;as Object {&#10;  class: "org.mule.extension.http.api.HttpRequestAttributes"&#10;}]' />
-			</munit:set-event>
 			<try doc:name="Try" doc:id="8414e56d-8b61-4005-932b-4510f7cfdddd">
 				<flow-ref doc:name="Flow Ref to sys-redis-api-main"
 					doc:id="10e8578c-4f29-4594-8c0b-5e7031997d0e"
@@ -117,10 +145,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</try>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-equals
-				doc:name="Assert error http status"
-				doc:id="1c5d2fc6-9346-4e79-a1da-011c83716365"
-				actual="#[vars.httpStatus]" expected="405" />
+			<munit-tools:assert-that
+				doc:name="Assert Method Not Allowed"
+				doc:id="6932d349-9381-4dfb-83e8-6d7a66ff348d"
+				expression="#[payload.result.'error-type']"
+				is="#[MunitTools::equalTo('APIKIT:METHOD_NOT_ALLOWED')]" />
 			<munit-tools:verify-call
 				doc:name="Verify api kit bad request"
 				doc:id="ef64ab48-4fde-4572-939e-54bbe74f210b"
@@ -134,12 +163,21 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</munit:test>
 	<munit:test name="sys-redis-api-main-apikit-not-acceptable"
 		doc:id="3062aaa3-916b-4d6f-b938-6638a88ce07d">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock apikit router"
+				doc:id="38d84d33-d904-45c7-af1f-f245dda8052b"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="sys-redis-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
 		<munit:execution>
-			<munit:set-event doc:name="Set Event"
-				doc:id="5416f67b-9632-4b43-9cec-37317bfa59b5">
-				<munit:attributes
-					value='#[{&#10;  "headers": {&#10;    "x-correlation-id": "s12312312312312312",&#10;    "accept": "application/xml" &#10;  },&#10;  "listenerPath": "/api/91722*",&#10; "relativePath": "/api/brand/91722",&#10;  "version": "HTTP/1.1",&#10;  "method": "GET",&#10;  "scheme": "HTTP",&#10;  "requestPath": "",&#10;  "requestUri": "",&#10;  "rawRequestPath": "/api/brand/91722",&#10;  "localAddress": "",&#10;  "remoteAddress": ""&#10;}&#10;as Object {&#10;  class: "org.mule.extension.http.api.HttpRequestAttributes"&#10;}]' />
-			</munit:set-event>
 			<try doc:name="Try" doc:id="88063dfa-540f-437d-b01c-841142833a98">
 				<flow-ref doc:name="Flow Ref to sys-redis-api-main"
 					doc:id="d092af5d-0337-41d3-8270-b6e8011fcd1f"
@@ -155,63 +193,120 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</try>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-equals
-				doc:name="Assert error http status"
-				doc:id="82b36f6a-5142-446f-b751-63ae9e2f91c5"
-				actual="#[vars.httpStatus]" expected="406" />
-			<munit-tools:verify-call doc:name="Verify api kit bad request" doc:id="f3e5c009-9961-4f09-8028-868d3de1381e" processor="set-variable" times="1" >
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="406" attributeName="value" />
+			<munit-tools:assert-that
+				doc:name="Assert Method Not Allowed"
+				doc:id="3914dc59-fc84-4d9a-b512-8dcd2f2a7654"
+				expression="#[payload.result.'error-type']"
+				is="#[MunitTools::equalTo('APIKIT:NOT_ACCEPTABLE')]" />
+			<munit-tools:verify-call
+				doc:name="Verify api kit bad request"
+				doc:id="f3e5c009-9961-4f09-8028-868d3de1381e"
+				processor="set-variable" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="406" attributeName="value" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="sys-redis-api-main-apikit-unsupported-media-type-test" doc:id="da39fbfc-31f8-4fae-b6f4-4d63b43b9b9f">
+	<munit:test
+		name="sys-redis-api-main-apikit-unsupported-media-type-test"
+		doc:id="da39fbfc-31f8-4fae-b6f4-4d63b43b9b9f">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock apikit router"
+				doc:id="5da150f4-9925-4ee2-9585-31d4aa434d85"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="sys-redis-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
 		<munit:execution>
-			<munit:set-event doc:name="Set Event" doc:id="573b6d0a-e128-4eed-8d89-0cb01d0082c7">
-				<munit:payload value='#[{&#10;  "prefix": "91721",&#10;  "brand-id": "1",&#10;  "brand-name": "TM"&#10;}]' />
-				<munit:attributes value='#[{&#10;  "headers": {&#10;    "x-correlation-id": "s12312312312312312",&#10;    "content-type": "application/xml" &#10;  },&#10;  "listenerPath": "/api/*",&#10; "relativePath": "/api/brand",&#10;  "version": "HTTP/1.1",&#10;  "method": "POST",&#10;  "scheme": "HTTP",&#10;  "requestPath": "",&#10;  "requestUri": "",&#10;  "rawRequestPath": "/api/brand",&#10;  "localAddress": "",&#10;  "remoteAddress": ""&#10;}&#10;as Object {&#10;  class: "org.mule.extension.http.api.HttpRequestAttributes"&#10;}]' />
-			</munit:set-event>
 			<try doc:name="Try" doc:id="2114525c-a98c-4be5-ae42-fb8adf08fa70">
-				<flow-ref doc:name="Flow Ref to sys-redis-api-main" doc:id="cd0c37b3-5afc-44da-9c5e-60129bfaa014" name="sys-redis-api-main" />
+				<flow-ref doc:name="Flow Ref to sys-redis-api-main"
+					doc:id="cd0c37b3-5afc-44da-9c5e-60129bfaa014"
+					name="sys-redis-api-main" />
 				<error-handler>
-					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="95ab36e7-82d1-4653-a918-b4a047ecc4ae">
-						<logger level="INFO" doc:name="Logger" doc:id="e10c7164-d410-4b08-87ef-6ecc07c84c93" />
+					<on-error-continue enableNotifications="true"
+						logException="true" doc:name="On Error Continue"
+						doc:id="95ab36e7-82d1-4653-a918-b4a047ecc4ae">
+						<logger level="INFO" doc:name="Logger"
+							doc:id="e10c7164-d410-4b08-87ef-6ecc07c84c93" />
 					</on-error-continue>
 				</error-handler>
 			</try>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-equals doc:name="Assert error http status" doc:id="507d00cd-9e77-4a98-904b-a4984e066b76" actual="#[vars.httpStatus]" expected="415" />
-			<munit-tools:verify-call doc:name="Verify api kit bad request" doc:id="d107010f-26b6-4392-8465-9e7559a71b76" processor="set-variable" times="1">
+			<munit-tools:assert-that
+				doc:name="Assert Unsupported Media Type"
+				doc:id="7ca73d36-dcd6-4135-9d01-27ecf347e250"
+				expression="#[payload.result.'error-type']"
+				is="#[MunitTools::equalTo('APIKIT:UNSUPPORTED_MEDIA_TYPE')]" />
+			<munit-tools:verify-call
+				doc:name="Verify api kit bad request"
+				doc:id="d107010f-26b6-4392-8465-9e7559a71b76"
+				processor="set-variable" times="1">
 				<munit-tools:with-attributes>
-					<munit-tools:with-attribute whereValue="415" attributeName="value" />
+					<munit-tools:with-attribute
+						whereValue="415" attributeName="value" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="sys-redis-api-main-apikit-not-implemented-test" doc:id="0bf1d78b-4c51-4604-9ccf-8506bc4979ac">
-		<munit:execution >
-			<munit:set-event doc:name="Set Event" doc:id="d9f3e12c-f7d4-46bc-a2dc-8933288e8951" >
-				<munit:attributes value='#[{&#10;  "headers": {&#10;    "x-correlation-id": "s12312312312312312"&#10;  },&#10;  "listenerPath": "/api/*",&#10; "relativePath": "/api/brand/91722",&#10;  "version": "HTTP/1.1",&#10;  "method": "GET",&#10;  "scheme": "HTTP",&#10;  "requestPath": "",&#10;  "requestUri": "",&#10;  "rawRequestPath": "/api/brand/91722",&#10;  "localAddress": "",&#10;  "remoteAddress": ""&#10;}&#10;as Object {&#10;  class: "org.mule.extension.http.api.HttpRequestAttributes"&#10;}]' />
-			</munit:set-event>
-			<try doc:name="Try" doc:id="2337f320-83ac-44b9-bb6b-51487196fe58" >
-				<flow-ref doc:name="Flow Ref to sys-redis-api-main" doc:id="e98ae05c-2f32-4459-b855-cb8e5972f7a1" name="sys-redis-api-main" />
-				<error-handler >
-					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="ab41f38d-fd58-4f58-8bf3-893783becd11" >
-						<logger level="INFO" doc:name="Logger" doc:id="f4afd805-a24a-4d71-a235-6d6f212d8c59" />
+	<munit:test
+		name="sys-redis-api-main-apikit-not-implemented-test"
+		doc:id="0bf1d78b-4c51-4604-9ccf-8506bc4979ac">
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock apikit router"
+				doc:id="c6f62a0a-3d9d-4e09-a227-d0ff23707631"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="sys-redis-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error
+						typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="2337f320-83ac-44b9-bb6b-51487196fe58">
+				<flow-ref doc:name="Flow Ref to sys-redis-api-main"
+					doc:id="e98ae05c-2f32-4459-b855-cb8e5972f7a1"
+					name="sys-redis-api-main" />
+				<error-handler>
+					<on-error-continue enableNotifications="true"
+						logException="true" doc:name="On Error Continue"
+						doc:id="ab41f38d-fd58-4f58-8bf3-893783becd11">
+						<logger level="INFO" doc:name="Logger"
+							doc:id="f4afd805-a24a-4d71-a235-6d6f212d8c59" />
 					</on-error-continue>
 				</error-handler>
 			</try>
 		</munit:execution>
-		<munit:validation >
-			<munit-tools:assert-equals doc:name="Assert error http status" doc:id="f357d889-9aa5-4c5a-a38e-04b6b1e2eb7e" actual="#[vars.httpStatus]" expected="501" />
-			<munit-tools:verify-call doc:name="Verify api kit bad request" doc:id="293e3c04-2e2a-42f9-8672-9b6b5f2996a2" processor="set-variable" times="1" >
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="501" attributeName="value" />
+		<munit:validation>
+			<munit-tools:assert-that
+				doc:name="Assert Not Implemented"
+				doc:id="70ed3ff5-9c91-4839-8173-516e4ba97df1"
+				expression="#[payload.result.'error-type']"
+				is="#[MunitTools::equalTo('APIKIT:NOT_IMPLEMENTED')]" />
+			<munit-tools:verify-call
+				doc:name="Verify api kit bad request"
+				doc:id="293e3c04-2e2a-42f9-8672-9b6b5f2996a2"
+				processor="set-variable" times="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="501" attributeName="value" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	
 </mule>
