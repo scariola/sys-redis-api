@@ -422,7 +422,7 @@ payload must equalTo({
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that
-				doc:name="Assert Redis Connectivity"
+				doc:name="Assert ANY"
 				doc:id="4369fa15-c588-4239-b5b5-801075808781"
 				expression="#[payload.result.'error-type']"
 				is="#[MunitTools::equalTo('MULE:ANY')]" />
@@ -480,7 +480,7 @@ payload must equalTo({
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that
-				doc:name="Assert Redis Connectivity"
+				doc:name="Assert ANY"
 				doc:id="4d8c5551-47b5-4b53-aada-6c6baf54d8f0"
 				expression="#[payload.result.'error-type']"
 				is="#[MunitTools::equalTo('MULE:ANY')]" />
