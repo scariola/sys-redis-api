@@ -23,15 +23,8 @@ http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/
 						whereValue="74a80ec7-28fe-4104-8080-63e87389055c"
 						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return>
-					<munit-tools:payload
-						value='#[output application/json --- "{\n  \"state\": 1\n}"]'
-						mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:variables>
-						<munit-tools:variable key="redisKey"
-							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
-							mediaType="application/java" encoding="UTF-8" />
-					</munit-tools:variables>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output application/json --- "{\n  \"state\": 1\n}"]' mediaType="application/json" encoding="UTF-8" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
@@ -89,14 +82,8 @@ payload must equalTo({
 						whereValue="74a80ec7-28fe-4104-8080-63e87389055c"
 						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return>
-					<munit-tools:payload value="#[null]"
-						encoding="UTF-8" />
-					<munit-tools:variables>
-						<munit-tools:variable key="redisKey"
-							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
-							mediaType="application/java" encoding="UTF-8" />
-					</munit-tools:variables>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[null]" encoding="UTF-8" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
@@ -124,7 +111,7 @@ import * from dw::test::Asserts
 ---
 payload must equalTo({
   "x-event-id": "123",
-  "x-event-code": 1005,
+  "x-event-code": 9005,
   "x-event-msg": "No Key Found!",
   "result": {}
 })]]]></munit-tools:that>
@@ -152,14 +139,8 @@ payload must equalTo({
 						whereValue="3014fba1-beea-4fed-ab54-5829c10ca936"
 						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return>
-					<munit-tools:payload value='#["OK"]'
-						mediaType="text/plain" encoding="UTF-8" />
-					<munit-tools:variables>
-						<munit-tools:variable key="redisKey"
-							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
-							mediaType="application/java" encoding="UTF-8" />
-					</munit-tools:variables>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#["OK"]' mediaType="text/plain" encoding="UTF-8" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
@@ -217,14 +198,8 @@ payload must equalTo({
 						whereValue="3014fba1-beea-4fed-ab54-5829c10ca936"
 						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return>
-					<munit-tools:payload value='#["NOT OK"]'
-						mediaType="text/plain" encoding="UTF-8" />
-					<munit-tools:variables>
-						<munit-tools:variable key="redisKey"
-							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
-							mediaType="application/java" encoding="UTF-8" />
-					</munit-tools:variables>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#["NOT OK"]' mediaType="text/plain" encoding="UTF-8" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
@@ -255,7 +230,7 @@ import * from dw::test::Asserts
 ---
 payload must equalTo({
   "x-event-id": "s12312312312312312",
-  "x-event-code": 1002,
+  "x-event-code": 9002,
   "x-event-msg": "Cache State Unsuccessful!"
 })]]]></munit-tools:that>
 			</munit-tools:assert>

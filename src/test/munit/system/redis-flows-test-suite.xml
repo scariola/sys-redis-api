@@ -21,14 +21,8 @@
 						whereValue="2bedc43a-3c8c-4801-8914-6a5028865c86"
 						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return>
-					<munit-tools:payload value='#["OK"]'
-						mediaType="text/plain" encoding="UTF-8" />
-					<munit-tools:variables>
-						<munit-tools:variable key="redisKey"
-							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
-							mediaType="application/java" encoding="UTF-8" />
-					</munit-tools:variables>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#["OK"]' mediaType="text/plain" encoding="UTF-8" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
@@ -82,14 +76,8 @@ payload must equalTo("OK")]]]></munit-tools:that>
 						whereValue="b9db12b8-797d-47c1-af9d-74a680bb42d9"
 						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return>
-					<munit-tools:payload
-						value='#["{\n  \"state\": 1\n}"]' encoding="UTF-8" />
-					<munit-tools:variables>
-						<munit-tools:variable key="redisKey"
-							value="#[output application/java --- readUrl('classpath://dw/mocks/var-brand-key.dwl')]"
-							mediaType="application/java" encoding="UTF-8" />
-					</munit-tools:variables>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#["{\n  \"state\": 1\n}"]' encoding="UTF-8" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>

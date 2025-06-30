@@ -21,14 +21,16 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 			doc:name="START - Redis Brand Request"
 			doc:id="76d223ea-7733-4475-b485-790480dcaf64"
 			message="START - Redis Brand  Request" />
-		<ee:transform
-			doc:name="var-redisKey"
-			doc:id="bae53617-701d-40ad-9e46-f3aaa478e500">
-			<ee:message>
+		<ee:transform doc:name="Payload TO Redis Request" doc:id="da4d92ca-21d5-40bd-9066-81ada415d069" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "redis-key": 'bridge-' ++ attributes.uriParams.prefix
+}
+]]></ee:set-payload>
 			</ee:message>
-			<ee:variables>
-				<ee:set-variable variableName="redisKey"><![CDATA['bridge-' ++ attributes.uriParams.prefix]]></ee:set-variable>
-			</ee:variables>
 		</ee:transform>
 		<flow-ref
 			doc:name="get-redis-subflow"
@@ -66,7 +68,7 @@ output application/json
 ---
 {
   "x-event-id":	correlationId,	
-  "x-event-code": 1005,
+  "x-event-code": 9005,
   "x-event-msg": "No Key Found!",
   "result": {}
 }]]></ee:set-payload>
@@ -93,13 +95,21 @@ output application/json
 			doc:name="START -Add Redis Brand Cache Request"
 			doc:id="bfc183fa-929d-4c0d-a92c-81dd9dfdef57"
 			message="START -Add Redis Brand Request" />
-		<ee:transform
-			doc:name="var-redisKey"
-			doc:id="e426ba54-b0d3-4472-9859-c659ab03351b">
-			<ee:message />
-			<ee:variables>
-				<ee:set-variable variableName="redisKey"><![CDATA['bridge-' ++ payload.prefix]]></ee:set-variable>
-			</ee:variables>
+		<ee:transform doc:name="Payload TO Redis Request" doc:id="0d436d22-812c-430b-81e7-07c3960560ae" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "redis-key": 'bridge-' ++ payload.prefix,
+  "value": {
+  	"prefix": payload.prefix,
+  	"brand-id": payload.'brand-id',
+  	"brand-name": payload.'brand-name'
+  }
+}
+]]></ee:set-payload>
+			</ee:message>
 		</ee:transform>
 		<flow-ref
 			doc:name="set-redis-subflow"
@@ -135,7 +145,7 @@ output application/json
 ---
 {
  "x-event-id":	correlationId,	
- "x-event-code": 1002,
+ "x-event-code": 9002,
  "x-event-msg": "Cache Bridge Unsuccessful!"
 }]]></ee:set-payload>
 					</ee:message>

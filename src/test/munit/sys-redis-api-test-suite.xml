@@ -22,15 +22,8 @@
 						whereValue="b8b48081-04a9-4d52-96f2-d84a24020ae8"
 						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return>
-					<munit-tools:payload
-						value="#[output application/json --- readUrl('classpath://dw/mocks/get-state-response.dwl')]"
-						mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:variables>
-						<munit-tools:variable key="redisKey"
-							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
-							mediaType="application/java" encoding="UTF-8" />
-					</munit-tools:variables>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://dw/mocks/get-state-response.dwl')]" mediaType="application/json" encoding="UTF-8" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
@@ -85,15 +78,8 @@ payload must equalTo({
 						whereValue="f1dce388-f774-422e-8ebd-4cbc996adf84"
 						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return>
-					<munit-tools:payload
-						value="#[output application/json --- readUrl('classpath://dw/mocks/get-brand-response.dwl')]"
-						mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:variables>
-						<munit-tools:variable key="redisKey"
-							value="#[output application/java --- readUrl('classpath://dw/mocks/var-brand-key.dwl')]"
-							mediaType="application/java" encoding="UTF-8" />
-					</munit-tools:variables>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://dw/mocks/get-brand-response.dwl')]" mediaType="application/json" encoding="UTF-8" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
@@ -150,15 +136,8 @@ payload must equalTo({
 						whereValue="fceb4e78-3ca2-41d3-b6b4-77a532756af7"
 						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return>
-					<munit-tools:payload
-						value="#[output application/json --- readUrl('classpath://dw/mocks/post-brand-response.dwl')]"
-						mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:variables>
-						<munit-tools:variable key="redisKey"
-							value="#[output application/java --- readUrl('classpath://dw/mocks/var-brand-key.dwl')]"
-							mediaType="application/json" encoding="UTF-8" />
-					</munit-tools:variables>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://dw/mocks/post-brand-response.dwl')]" mediaType="application/json" encoding="UTF-8" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
@@ -213,15 +192,8 @@ payload must equalTo({
 						whereValue="d89a55e1-3393-49ff-8ea8-ad32d8f067c0"
 						attributeName="doc:id" />
 				</munit-tools:with-attributes>
-				<munit-tools:then-return>
-					<munit-tools:payload
-						value="#[output application/json --- readUrl('classpath://dw/mocks/post-state-response.dwl')]"
-						mediaType="application/json" encoding="UTF-8" />
-					<munit-tools:variables>
-						<munit-tools:variable key="redisKey"
-							value="#[output application/java --- readUrl('classpath://dw/mocks/var-state-key.dwl')]"
-							mediaType="application/java" encoding="UTF-8" />
-					</munit-tools:variables>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://dw/mocks/post-state-response.dwl')]" mediaType="application/json" encoding="UTF-8" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
