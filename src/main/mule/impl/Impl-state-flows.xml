@@ -25,7 +25,7 @@ output application/json
 		</ee:transform>
 		<flow-ref doc:name="get-redis-subflow"
 			doc:id="74a80ec7-28fe-4104-8080-63e87389055c"
-			name="get-redis-subflow" />
+			name="redis-get-subflow" />
 		<choice doc:name="CONTAINS State?"
 			doc:id="618f6995-4b7c-4cf9-8229-d6cc529cb659">
 			<when expression="#[!isEmpty(payload)]">
@@ -92,7 +92,7 @@ output application/json
 		</ee:transform>
 		<flow-ref doc:name="get-redis-subflow"
 			doc:id="3014fba1-beea-4fed-ab54-5829c10ca936"
-			name="set-redis-subflow" />
+			name="redis-set-subflow" />
 		<choice doc:name="IS successful?"
 			doc:id="aa631e8a-e5e6-4cc9-b3c4-7db5726f9fed">
 			<when expression="#[payload == 'OK']">

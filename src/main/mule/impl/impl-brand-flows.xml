@@ -33,9 +33,9 @@ output application/json
 			</ee:message>
 		</ee:transform>
 		<flow-ref
-			doc:name="get-redis-subflow"
+			doc:name="redis-get-subflow"
 			doc:id="887d86b8-bf5b-47f3-9228-52a5578660f6"
-			name="get-redis-subflow" />
+			name="redis-get-subflow" />
 		<choice
 			doc:name="CONTAINS brandID?"
 			doc:id="c97238b6-1a84-4eaf-9006-79c093b85817">
@@ -112,9 +112,9 @@ output application/json
 			</ee:message>
 		</ee:transform>
 		<flow-ref
-			doc:name="set-redis-subflow"
+			doc:name="redis-set-subflow"
 			doc:id="449e25bf-fc29-4d47-825c-9c1ad09a986b"
-			name="set-redis-subflow" />
+			name="redis-set-subflow" />
 		<choice
 			doc:name="IS successful?"
 			doc:id="38b49ccc-aef4-4a23-9659-452cd2bf9b0c">

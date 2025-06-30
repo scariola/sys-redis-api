@@ -42,7 +42,7 @@
 			</munit:set-event>
 			<flow-ref doc:name="Flow-ref to set-redis-subflow"
 				doc:id="b4b780d4-6202-4300-8bae-4662654212d3"
-				name="set-redis-subflow" />
+				name="redis-set-subflow" />
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert doc:name="Assert payload"
@@ -94,7 +94,7 @@ payload must equalTo("OK")]]]></munit-tools:that>
 			</munit:set-event>
 			<flow-ref doc:name="Flow-ref to get-redis-subflow"
 				doc:id="abb0ce94-4e8e-4dad-95e0-a8e2d451367f"
-				name="get-redis-subflow" />
+				name="redis-get-subflow" />
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert doc:name="Assert payload"
