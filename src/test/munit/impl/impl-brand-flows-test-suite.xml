@@ -53,7 +53,7 @@ import * from dw::test::Asserts
 ---
 payload must equalTo({
   "x-event-id": "s12312312312312312",
-  "x-event-code": 9005,
+  "x-event-code": 1006,
   "x-event-msg": "No Key Found!",
   "result": {}
 })]]]></munit-tools:that>
@@ -71,7 +71,7 @@ payload must equalTo({
 		</munit:validation>
 	</munit:test>
 	<munit:test doc:id="af0e532e-8a79-4c0d-9142-2ceb6794df4b"
-		name="impl-post-brand-flow-unsuccessful-test" ignore="true">
+		name="impl-post-brand-flow-unsuccessful-test">
 		<munit:behavior>
 			<munit-tools:mock-when
 				doc:id="ec921fd7-9348-42a6-a36f-9027769928e2"
@@ -137,7 +137,7 @@ payload must equalTo({
 		</munit:validation>
 	</munit:test>
 	<munit:test doc:id="a482a532-6685-42ea-bc1f-0b925dc5bcf5"
-		name="impl-get-brand-flow-success-test" ignore="true">
+		name="impl-get-brand-flow-success-test">
 		<munit:behavior>
 			<munit-tools:mock-when
 				doc:id="1b6696b4-4193-4c9f-8fa8-8a8ecd42599e"
@@ -205,7 +205,7 @@ payload must equalTo({
 		</munit:validation>
 	</munit:test>
 	<munit:test doc:id="7e5a8b5a-d351-43f8-9e67-98156ff845ca"
-		name="impl-post-brand-flow-success-test" ignore="true">
+		name="impl-post-brand-flow-success-test">
 		<munit:behavior>
 			<munit-tools:mock-when
 				doc:id="5947d888-86fa-477a-813a-c372bbc0c00a"
@@ -272,7 +272,7 @@ payload must equalTo({
 	</munit:test>
 	<munit:test
 		name="impl-get-brand-flow-api_Shared_Error_Handler-redis-connectivity-test"
-		doc:id="04a4b1f7-c589-42e8-a9d4-b29d0f29eedb" ignore="true">
+		doc:id="04a4b1f7-c589-42e8-a9d4-b29d0f29eedb">
 		<munit:behavior>
 			<munit-tools:mock-when
 				doc:name="Mock get-redis-subflow"
@@ -327,7 +327,7 @@ payload must equalTo({
 	</munit:test>
 	<munit:test
 		name="impl-post-brand-flow-api_Shared_Error_Handler-redis-connectivity-test"
-		doc:id="076f0124-e708-4fc1-83ba-b198cb61f193" ignore="true">
+		doc:id="076f0124-e708-4fc1-83ba-b198cb61f193">
 		<munit:behavior>
 			<munit-tools:mock-when
 				doc:name="Mock set-redis-subflow"
@@ -385,7 +385,7 @@ payload must equalTo({
 	</munit:test>
 	<munit:test
 		name="impl-get-brand-flow-api_Shared_Error_Handler-any-test"
-		doc:id="b3869b15-c9f1-46cf-abd7-d15e545bec5d" ignore="true">
+		doc:id="b3869b15-c9f1-46cf-abd7-d15e545bec5d">
 		<munit:behavior>
 			<munit-tools:mock-when
 				doc:name="Mock get-redis-subflow"
@@ -440,7 +440,7 @@ payload must equalTo({
 	</munit:test>
 	<munit:test
 		name="impl-post-brand-flow-api_Shared_Error_Handler-any-test"
-		doc:id="878b43f8-980e-4c3c-b091-5dccbb0b9901" ignore="true">
+		doc:id="878b43f8-980e-4c3c-b091-5dccbb0b9901">
 		<munit:behavior>
 			<munit-tools:mock-when
 				doc:name="Mock set-redis-subflow"

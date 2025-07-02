@@ -111,7 +111,7 @@ import * from dw::test::Asserts
 ---
 payload must equalTo({
   "x-event-id": "123",
-  "x-event-code": 9005,
+  "x-event-code": 1006,
   "x-event-msg": "No Key Found!",
   "result": {}
 })]]]></munit-tools:that>
