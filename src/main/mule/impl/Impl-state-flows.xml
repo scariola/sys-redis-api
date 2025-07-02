@@ -56,7 +56,7 @@ output application/json
 ---
 {
   "x-event-id":	correlationId,	
-  "x-event-code": 9005,
+  "x-event-code": 1006,
   "x-event-msg": "No Key Found!",
   "result": {}
 }]]></ee:set-payload>

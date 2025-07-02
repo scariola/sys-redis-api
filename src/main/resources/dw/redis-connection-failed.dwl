@@ -3,7 +3,7 @@ output application/json
 ---
 {
   "x-event-id":	correlationId,
-  "x-event-code": 9010,
+  "x-event-code": 9401,
   "x-event-msg": "Redis connection failed",
    "result":{
   	"error-type": error.errorType.namespace ++ ":" ++ error.errorType.identifier,
