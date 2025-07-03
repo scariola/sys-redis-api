@@ -87,7 +87,7 @@ output application/json
     "state": payload.state,
     "exipry-date": payload.'expiry-date'
   },
-  "stateTtl": 
+  "state-ttl": 
     (payload."expiry-date" 
       as LocalDateTime { format: "yyyy-MM-dd HH:mm:ss" } 
       as DateTime 

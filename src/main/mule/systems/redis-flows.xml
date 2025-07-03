@@ -17,7 +17,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<redis:set doc:name="Set Redis"
 			doc:id="2bedc43a-3c8c-4801-8914-6a5028865c86"
 			config-ref="Redis_Config_sys-redis-api" key="#[payload.'redis-key']"
-			expire="#[payload.stateTtl default null]">
+			expire="#[payload.'state-ttl' default null]">
 			<redis:value><![CDATA[#[%dw 2.0
 output application/java
 ---
