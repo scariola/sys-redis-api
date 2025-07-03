@@ -1,0 +1,9 @@
+{
+  "x-event-id":"123-45555-222-2221",
+  "x-event-code": 9010,
+  "x-event-msg": "Unsupported media type",
+  "result": {
+    "error-type": "APIKIT:UNSUPPORTED_MEDIA_TYPE",
+    "error-description": "Unsupported"
+  }
+}

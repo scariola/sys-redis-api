@@ -1,0 +1,13 @@
+#%RAML 1.0 Library
+usage: Common subscription trait and error definitions
+
+traits:
+  trait-headers: !include modules/traits/trait-headers.raml
+  trait-errors: !include modules/traits/trait-errors.raml
+
+
+types:
+  type-common-response: !include modules/types/type-common-response.raml
+
+securitySchemes:
+  client-id-auth: !include modules/security-schemes/auth-subscription.raml

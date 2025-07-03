@@ -1,0 +1,81 @@
+#%RAML 1.0
+title: sys-redis-api
+version: 1.0
+baseUri: http://api.example.com/sys-redis-api
+protocols: [HTTP]
+
+uses:
+  common: exchange_modules/871a7b19-9f3e-4dbd-8ef4-09253a8ba1dc/common-subscription-library/1.0.0/common-subscription-library.raml
+
+securitySchemes:
+  client-id-auth: !include exchange_modules/871a7b19-9f3e-4dbd-8ef4-09253a8ba1dc/common-subscription-library/1.0.0/modules/security-schemes/auth-subscription.raml
+
+securedBy: [ client-id-auth ]
+
+types:
+  redis-post-brand-request-type: !include types/type-post-redis-brand-request.raml
+  redis-post-state-request-type: !include types/type-post-redis-state-request.raml
+  
+  
+
+/state/{msisdn}:
+  uriParameters:
+    msisdn:
+      type: string
+      required: true
+      pattern: "^63[0-9]{10}$"
+      description: Mobile number in 63xxxxxxxxxx format
+      example: "639174276701"
+  get:
+    is: [ common.trait-headers, common.trait-errors ]
+    responses:
+      200:
+        body:
+          application/json:
+            type: common.type-common-response
+            example: !include examples/get-redis-state-response.json
+  post:
+    is: [ common.trait-headers, common.trait-errors ]
+    body:
+      application/json:
+        type: redis-post-state-request-type
+        example: !include examples/post-redis-state-request.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: common.type-common-response
+            example: !include examples/post-redis-state-response.json
+
+/brand:
+  /{prefix}:
+    uriParameters:
+      prefix:
+        type: string
+        required: true
+        description: Mobile number prefix 9xxxx format
+        minLength: 1
+        maxLength: 5
+        example: "91712"
+    get:
+      is: [ common.trait-headers, common.trait-errors ]
+      responses:
+        200:
+          body:
+            application/json:
+              type: common.type-common-response
+              example: !include examples/get-redis-brand-response.json
+
+  post:
+    is: [ common.trait-headers, common.trait-errors ]
+    body:
+      application/json:
+        type: redis-post-brand-request-type
+        example: !include examples/post-redis-brand-request.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: common.type-common-response
+            example: !include examples/post-redis-brand-response.json
+

@@ -1,0 +1,17 @@
+#%RAML 1.0 SecurityScheme
+description: Header-based security using client ID and client secret. Used to authenticate the consumer application.
+
+type: x-client-id-auth
+
+describedBy:
+  headers:
+    client-id:
+      description: Unique client ID issued to the consuming application
+      type: string
+      required: true
+      example: abc123-client
+    client-secret:
+      description: Secret key issued with the client ID for authentication
+      type: string
+      required: true
+      example: s3cr3tKey!

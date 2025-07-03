@@ -1,0 +1,9 @@
+{
+  "x-event-id":"123-45555-222-2221",
+  "x-event-code": 9010,
+  "x-event-msg": "Method not allowed",
+  "result": {
+    "error-type": "APIKIT:METHOD_NOT_ALLOWED",
+    "error-description": "Not Allowed"
+  }
+}

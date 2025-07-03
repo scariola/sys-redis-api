@@ -1,0 +1,48 @@
+#%RAML 1.0 Trait
+description: Common error responses for 4xx and 5xx
+
+
+responses:
+  400:
+    description: Bad Request — Invalid input or parameters.
+    body:
+      application/json:
+        type: type-common-response
+        example: !include ../../examples/common-response-400.json                   
+  404:
+    description: Not Found — The requested resource was not found.
+    body:
+      application/json:
+        type: type-common-response
+        example: !include ../../examples/common-response-404.json
+  405:
+    description: Method not allowed.
+    body:
+      application/json:
+        type: type-common-response
+        example: !include ../../examples/common-response-405.json      
+  406:
+    description: Not acceptable.
+    body:
+      application/json:
+        type: type-common-response
+        example: !include ../../examples/common-response-406.json
+  415:
+    description: Unsupported media type.
+    body:
+      application/json:
+        type: type-common-response
+        example: !include ../../examples/common-response-415.json                  
+  500:
+    description: Internal Server Error — Unexpected error.
+    body:
+      application/json:
+        type: type-common-response
+        example: !include ../../examples/common-response-500.json
+  501:
+    description: Not implemented.
+    body:
+      application/json:
+        type: type-common-response
+        example: !include ../../examples/common-response-501.json  
+  

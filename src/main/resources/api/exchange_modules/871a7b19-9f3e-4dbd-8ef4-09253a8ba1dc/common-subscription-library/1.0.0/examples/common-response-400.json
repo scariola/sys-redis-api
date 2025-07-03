@@ -1,0 +1,9 @@
+{
+  "x-event-id":"123-45555-222-2221",
+  "x-event-code": 9010,
+  "x-event-msg": "Bad Request or Invalid request format or missing parameter",
+  "result": {
+    "error-type": "APIKIT:BAD_REQUEST",
+    "error-description": "Invalid value"
+  }
+}

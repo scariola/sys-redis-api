@@ -1,0 +1,9 @@
+{
+  "x-event-id":"123-45555-222-2221",
+  "x-event-code": 1005,
+  "x-event-msg": "Success",
+  "result":{
+    "msisdn": "639171234567",
+    "state": 1
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "x-event-id":"123-45555-222-2221",
+  "x-event-code": 1005,
+  "x-event-msg": "Success",
+  "result":{
+      "prefix": "91712",
+      "brand-id": "2",
+      "brand-name": "TM"
+  }
+}

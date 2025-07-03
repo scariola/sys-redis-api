@@ -1,0 +1,13 @@
+#%RAML 1.0 DataType
+type: object
+usage: Request payload to update subscription state in Redis
+properties:
+  state:
+    type: integer
+    required: true
+    enum: [0, 1]
+    description: Subscription state — 0 = OFF (Opt-Out), 1 = ON (Opt-In or Bonus)
+  expiry-date:
+    type: integer
+    required: true
+    description: Unix timestamp set as TTL for Redis.

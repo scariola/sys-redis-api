@@ -17,11 +17,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<redis:set doc:name="Set Redis"
 			doc:id="2bedc43a-3c8c-4801-8914-6a5028865c86"
 			config-ref="Redis_Config_sys-redis-api" key="#[payload.'redis-key']"
-			expire="#[payload.'expiry-date' default null]">
+			expire="#[payload.stateTtl default null]">
 			<redis:value><![CDATA[#[%dw 2.0
 output application/java
 ---
-write(payload.value, "application/json")]]]></redis:value>
+write(payload.requestPayload, "application/json")]]]></redis:value>
 		</redis:set>
 		<logger level="INFO" doc:name="END- Set Redis"
 			doc:id="954fd2d6-fb3b-4c7e-9d15-2561668b39a1"

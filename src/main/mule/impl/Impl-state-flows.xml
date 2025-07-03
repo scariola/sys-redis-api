@@ -82,10 +82,17 @@ output application/json
 ---
 {
   "redis-key": "spectre-freefb-" ++ attributes.uriParams.msisdn,
-  "value": {
-  	"state":  payload.state
+  "requestPayload": {
+  	"msisdn":attributes.uriParams.msisdn,
+    "state": payload.state,
+    "exipry-date": payload.'expiry-date'
   },
-  "expiry-date": payload.'expiry-date' 
+  "stateTtl": 
+    (payload."expiry-date" 
+      as LocalDateTime { format: "yyyy-MM-dd HH:mm:ss" } 
+      as DateTime 
+      as Number) 
+    - (now() as DateTime as Number)
 }
 ]]></ee:set-payload>
 			</ee:message>

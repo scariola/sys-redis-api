@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>19504067-e1e3-45dd-943a-e163098ddbed</groupId>
-	<artifactId>sys-redis-api-app</artifactId>
+	<groupId>871a7b19-9f3e-4dbd-8ef4-09253a8ba1dc</groupId>
+	<artifactId>sys-redis-api</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
@@ -109,12 +109,6 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>org.mule.modules</groupId>
-			<artifactId>mule-apikit-module</artifactId>
-			<version>1.11.2</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
 			<groupId>com.mulesoft.connectors</groupId>
 			<artifactId>mule-redis-connector</artifactId>
 			<version>5.4.7</version>
@@ -153,9 +147,15 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>19504067-e1e3-45dd-943a-e163098ddbed</groupId>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-apikit-module</artifactId>
+			<version>1.11.6</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>871a7b19-9f3e-4dbd-8ef4-09253a8ba1dc</groupId>
 			<artifactId>sys-redis-api</artifactId>
-			<version>1.0.19</version>
+			<version>2.0.2</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
 		</dependency>
