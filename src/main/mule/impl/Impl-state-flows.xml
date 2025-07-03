@@ -85,7 +85,7 @@ output application/json
   "requestPayload": {
   	"msisdn":attributes.uriParams.msisdn,
     "state": payload.state,
-    "exipry-date": payload.'expiry-date'
+    "expiry-date": payload.'expiry-date'
   },
   "state-ttl": 
     (payload."expiry-date" 

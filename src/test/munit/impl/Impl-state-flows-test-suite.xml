@@ -24,7 +24,7 @@ http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/
 						attributeName="doc:id" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
-					<munit-tools:payload value='#[output application/json --- "{\n  \"state\": 1\n}"]' mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:payload value='#[output application/json --- "{\"msisdn\": \"639174276705\", \"state\": 1, \"exipry-date\": \"2025-07-08 23:59:59\"}"]' mediaType="application/json" encoding="UTF-8" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
@@ -55,7 +55,9 @@ payload must equalTo({
   "x-event-code": 1005,
   "x-event-msg": "Success",
   "result": {
-    "state": 1
+    "msisdn": "639174276705",
+    "state": 1,
+    "exipry-date": "2025-07-08 23:59:59"
   }
 })]]]></munit-tools:that>
 			</munit-tools:assert>
@@ -302,7 +304,7 @@ payload must equalTo({
 		</munit:validation>
 	</munit:test>
 	<munit:test
-		name="impl-put-state-flow-api_Shared_Error_Handler-redis-connectivity-test"
+		name="impl-post-state-flow-api_Shared_Error_Handler-redis-connectivity-test"
 		doc:id="c2be6963-8c64-4c24-866e-3427d222a4bb">
 		<munit:behavior>
 			<munit-tools:mock-when
@@ -319,10 +321,9 @@ payload must equalTo({
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution>
-			<munit:set-event doc:name="Set Input"
-				doc:id="a27cabe8-7a8d-4280-b237-3623849c7a09">
-				<munit:attributes
-					value="#[readUrl('classpath://dw/events/attr-get-state.dwl')]" />
+			<munit:set-event doc:name="Set Input" doc:id="4518db3b-8a2b-4766-b804-1e71397aff11" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://dw/events/post-state-request.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://dw/events/attr-post-state.dwl')]" />
 			</munit:set-event>
 			<try doc:name="Try" doc:id="f7f3fcfe-01aa-405e-bdf2-0d59d52845e6">
 				<flow-ref doc:name="Flow-ref to impl-post-state-flow"
@@ -412,7 +413,7 @@ payload must equalTo({
 		</munit:validation>
 	</munit:test>
 	<munit:test
-		name="impl-put-state-flow-api_Shared_Error_Handler-any-test"
+		name="impl-post-state-flow-api_Shared_Error_Handler-any-test"
 		doc:id="bd4ac224-3762-4aa9-bf13-2041df42b8a1">
 		<munit:behavior>
 			<munit-tools:mock-when
@@ -429,13 +430,9 @@ payload must equalTo({
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution>
-			<munit:set-event doc:name="Set Input"
-				doc:id="40ef1412-8df6-499d-b435-618e11dda203">
-				<munit:payload
-					value="#[output application/json --- readUrl('classpath://dw/events/post-state-request.dwl')]"
-					encoding="UTF-8" mediaType="application/json" />
-				<munit:attributes
-					value="#[readUrl('classpath://dw/events/attr-post-state.dwl')]" />
+			<munit:set-event doc:name="Set Input" doc:id="40ef1412-8df6-499d-b435-618e11dda203">
+				<munit:payload value="#[output application/json --- readUrl('classpath://dw/events/post-state-request.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://dw/events/attr-post-state.dwl')]" />
 			</munit:set-event>
 			<try doc:name="Try" doc:id="37f36386-b859-4d9f-bd2e-4391721f555a">
 				<flow-ref doc:name="Flow-ref to impl-post-state-flow"

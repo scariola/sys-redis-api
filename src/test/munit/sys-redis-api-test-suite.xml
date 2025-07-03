@@ -50,7 +50,9 @@ payload must equalTo({
   "x-event-code": 1005,
   "x-event-msg": "Success",
   "result": {
-    "state": 1
+     "msisdn": "639174276705",
+        "state": 1,
+        "expiry-date": "2025-07-08 23:59:59"
   }
 })]]]></munit-tools:that>
 			</munit-tools:assert>
