@@ -46,7 +46,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<configuration doc:name="Global_Error_Handler_Config"
 		doc:id="773be5c5-7ea7-41d5-8a94-f67d233af0e7"
 		defaultErrorHandler-ref="sys-redis-api_Shared_Error_Handler" />
-	<api-gateway:autodiscovery apiId="20406893"
+	<api-gateway:autodiscovery apiId="${app.id}"
 		ignoreBasePath="false" doc:name="API Autodiscovery"
 		doc:id="aa8b726d-4f01-4d0c-a196-5c6b89c65518"
 		flowRef="sys-redis-api-main" />
