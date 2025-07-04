@@ -102,7 +102,7 @@ output application/json
 ---
 {
   "redis-key": 'bridge-' ++ payload.prefix,
-  "value": {
+  "requestPayload": {
   	"prefix": payload.prefix,
   	"brand-id": payload.'brand-id',
   	"brand-name": payload.'brand-name'
