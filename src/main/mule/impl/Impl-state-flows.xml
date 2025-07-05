@@ -78,21 +78,24 @@ output application/json
 		<ee:transform doc:name="Payload TO Redis Request" doc:id="c242e988-81e0-4803-8579-e707280530ef" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
+output application/json skipNullOn = "everywhere"
 ---
 {
   "redis-key": "spectre-freefb-" ++ attributes.uriParams.msisdn,
   "requestPayload": {
-  	"msisdn":attributes.uriParams.msisdn,
+    "msisdn": attributes.uriParams.msisdn,
     "state": payload.state,
-    "expiry-date": payload.'expiry-date'
+    "expiry-date": payload."expiry-date"
   },
   "state-ttl": 
-    (payload."expiry-date" 
-      as LocalDateTime { format: "yyyy-MM-dd HH:mm:ss" } 
-      as DateTime 
-      as Number) 
-    - (now() as DateTime as Number)
+    if (payload."expiry-date" != null)
+      (payload."expiry-date" 
+        as LocalDateTime { format: "yyyy-MM-dd HH:mm:ss" } 
+        as DateTime 
+        as Number) 
+      - (now() as DateTime as Number)
+    else
+      null
 }
 ]]></ee:set-payload>
 			</ee:message>
