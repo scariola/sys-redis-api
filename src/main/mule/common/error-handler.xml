@@ -20,11 +20,10 @@ http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/re
 					<ee:set-payload
 						resource="dw/redis-connection-failed.dwl" />
 				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/var-httpStatus-503.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable value="503"
-				doc:name="Set httpStatus  = 503"
-				doc:id="fde4f4b1-536c-4d87-b368-705d8e4b271e"
-				variableName="httpStatus" />
 		</on-error-propagate>
 		<on-error-propagate enableNotifications="true"
 			logException="true" doc:name="On Error Propagate"
@@ -32,14 +31,12 @@ http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/re
 			<ee:transform doc:name="Set Payload - Any Occured"
 				doc:id="96f84071-f99f-47e5-8afd-b99f633375ec">
 				<ee:message>
-					<ee:set-payload
-						resource="dw/unexpected-system-error.dwl" />
+					<ee:set-payload resource="dw/unexpected-system-error.dwl" />
 				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/var-httpStatus-500.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable value="500"
-				doc:name="Set httpStatus  = 500"
-				doc:id="af97ab80-2f23-4028-a1a6-605608be43a4"
-				variableName="httpStatus" />
 		</on-error-propagate>
 
 
@@ -51,18 +48,20 @@ http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/re
 				<ee:message>
 					<ee:set-payload resource="dw/api-bad-request.dwl" />
 				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/var-httpStatus-400.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="400"
-				doc:name="Set httpStatus  = 400" />
 		</on-error-propagate>
 		<on-error-propagate type="APIKIT:NOT_FOUND">
 			<ee:transform doc:name="Set Payload - Not Found">
 				<ee:message>
 					<ee:set-payload resource="dw/api-not-found.dwl" />
 				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/var-httpStatus-404.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="404"
-				doc:name="Set httpStatus  = 404" />
 		</on-error-propagate>
 		<on-error-propagate
 			type="APIKIT:METHOD_NOT_ALLOWED">
@@ -72,18 +71,20 @@ http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/re
 					<ee:set-payload
 						resource="dw/api-method-not-allowed.dwl" />
 				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/var-httpStatus-405.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="405"
-				doc:name="Set httpStatus  = 405" />
 		</on-error-propagate>
 		<on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
 			<ee:transform doc:name="Set  Payload - Not Acceptable">
 				<ee:message>
 					<ee:set-payload resource="dw/api-not-acceptable.dwl" />
 				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/var-httpStatus-406.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="406"
-				doc:name="Set httpStatus  = 406" />
 		</on-error-propagate>
 		<on-error-propagate
 			type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
@@ -93,9 +94,10 @@ http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/re
 					<ee:set-payload
 						resource="dw/api-unsupported-media-type.dwl" />
 				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/var-httpStatus-415.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="415"
-				doc:name="Set httpStatus  = 415" />
 		</on-error-propagate>
 		<on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
 			<ee:transform doc:name="Set Payload - Not Implemented">
@@ -103,9 +105,10 @@ http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/re
 					<ee:set-payload
 						resource="dw/api-not-implemented.dwl" />
 				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/var-httpStatus-501.dwl" variableName="httpStatus" />
+				</ee:variables>
 			</ee:transform>
-			<set-variable variableName="httpStatus" value="501"
-				doc:name="Set httpStatus  = 501" />
 		</on-error-propagate>
 	</error-handler>
 </mule>

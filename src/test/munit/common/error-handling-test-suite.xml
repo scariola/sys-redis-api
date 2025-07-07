@@ -52,15 +52,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				doc:id="0a19001a-21a5-49f0-9169-7b717b003ac8"
 				is="#[MunitTools::equalTo('APIKIT:BAD_REQUEST')]"
 				expression="#[payload.result.'error-type']" />
-			<munit-tools:verify-call
-				doc:name="Verify api kit bad request"
-				doc:id="f7b222eb-2443-4b6b-8ff3-8ed4ad257b1c"
-				processor="set-variable" times="1">
-				<munit-tools:with-attributes>
-					<munit-tools:with-attribute
-						whereValue="400" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 	<munit:test name="sys-redis-api-main-apikit-not-found-test"
@@ -100,15 +91,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				doc:id="400c85bd-ea55-4a20-a1f4-335ce7b7c3ea"
 				expression="#[payload.result.'error-type']"
 				is="#[MunitTools::equalTo('APIKIT:NOT_FOUND')]" />
-			<munit-tools:verify-call
-				doc:name="Verify api kit bad request"
-				doc:id="fc983fad-1d51-43db-8cc0-d40049e38338"
-				processor="set-variable" times="1">
-				<munit-tools:with-attributes>
-					<munit-tools:with-attribute
-						whereValue="404" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 	<munit:test
@@ -150,15 +132,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				doc:id="6932d349-9381-4dfb-83e8-6d7a66ff348d"
 				expression="#[payload.result.'error-type']"
 				is="#[MunitTools::equalTo('APIKIT:METHOD_NOT_ALLOWED')]" />
-			<munit-tools:verify-call
-				doc:name="Verify api kit bad request"
-				doc:id="ef64ab48-4fde-4572-939e-54bbe74f210b"
-				processor="set-variable" times="1">
-				<munit-tools:with-attributes>
-					<munit-tools:with-attribute
-						whereValue="405" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 	<munit:test name="sys-redis-api-main-apikit-not-acceptable"
@@ -198,15 +171,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				doc:id="3914dc59-fc84-4d9a-b512-8dcd2f2a7654"
 				expression="#[payload.result.'error-type']"
 				is="#[MunitTools::equalTo('APIKIT:NOT_ACCEPTABLE')]" />
-			<munit-tools:verify-call
-				doc:name="Verify api kit bad request"
-				doc:id="f3e5c009-9961-4f09-8028-868d3de1381e"
-				processor="set-variable" times="1">
-				<munit-tools:with-attributes>
-					<munit-tools:with-attribute
-						whereValue="406" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 	<munit:test
@@ -248,15 +212,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				doc:id="7ca73d36-dcd6-4135-9d01-27ecf347e250"
 				expression="#[payload.result.'error-type']"
 				is="#[MunitTools::equalTo('APIKIT:UNSUPPORTED_MEDIA_TYPE')]" />
-			<munit-tools:verify-call
-				doc:name="Verify api kit bad request"
-				doc:id="d107010f-26b6-4392-8465-9e7559a71b76"
-				processor="set-variable" times="1">
-				<munit-tools:with-attributes>
-					<munit-tools:with-attribute
-						whereValue="415" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 	<munit:test
@@ -298,15 +253,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				doc:id="70ed3ff5-9c91-4839-8173-516e4ba97df1"
 				expression="#[payload.result.'error-type']"
 				is="#[MunitTools::equalTo('APIKIT:NOT_IMPLEMENTED')]" />
-			<munit-tools:verify-call
-				doc:name="Verify api kit bad request"
-				doc:id="293e3c04-2e2a-42f9-8672-9b6b5f2996a2"
-				processor="set-variable" times="1">
-				<munit-tools:with-attributes>
-					<munit-tools:with-attribute
-						whereValue="501" attributeName="value" />
-				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 </mule>

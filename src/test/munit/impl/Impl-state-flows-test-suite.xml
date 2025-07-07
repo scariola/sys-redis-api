@@ -294,11 +294,9 @@ payload must equalTo({
 			<munit-tools:verify-call
 				doc:name="Verify Status Code"
 				doc:id="f7f703b1-9812-4d39-abfa-202185b095d5"
-				processor="set-variable" times="1">
-				<munit-tools:with-attributes>
-					<munit-tools:with-attribute
-						whereValue="fde4f4b1-536c-4d87-b368-705d8e4b271e"
-						attributeName="doc:id" />
+				processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="e16efdff-44de-4fbf-a0aa-06b5ad70170b" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
@@ -348,11 +346,9 @@ payload must equalTo({
 			<munit-tools:verify-call
 				doc:name="Verify Status Code"
 				doc:id="7f997a03-a841-4120-9291-525bdd372808"
-				processor="set-variable" times="1">
-				<munit-tools:with-attributes>
-					<munit-tools:with-attribute
-						whereValue="fde4f4b1-536c-4d87-b368-705d8e4b271e"
-						attributeName="doc:id" />
+				processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="e16efdff-44de-4fbf-a0aa-06b5ad70170b" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
@@ -403,11 +399,9 @@ payload must equalTo({
 			<munit-tools:verify-call
 				doc:name="Verify Status Code"
 				doc:id="adc82718-d24c-4695-82ff-b55ae1661d13"
-				processor="set-variable" times="1">
-				<munit-tools:with-attributes>
-					<munit-tools:with-attribute
-						whereValue="af97ab80-2f23-4028-a1a6-605608be43a4"
-						attributeName="doc:id" />
+				processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="96f84071-f99f-47e5-8afd-b99f633375ec" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
@@ -457,11 +451,9 @@ payload must equalTo({
 			<munit-tools:verify-call
 				doc:name="Verify Status Code"
 				doc:id="0fec2664-b62f-4830-aaba-86da81573312"
-				processor="set-variable" times="1">
-				<munit-tools:with-attributes>
-					<munit-tools:with-attribute
-						whereValue="af97ab80-2f23-4028-a1a6-605608be43a4"
-						attributeName="doc:id" />
+				processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="96f84071-f99f-47e5-8afd-b99f633375ec" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
