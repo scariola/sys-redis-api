@@ -3,8 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>871a7b19-9f3e-4dbd-8ef4-09253a8ba1dc</groupId>
-	<artifactId>sys-redis-api-one</artifactId>
-	<version>1.0.1</version>
+	<artifactId>sys-redis-api</artifactId>
+	<version>1.0.0</version>
 	<packaging>mule-application</packaging>
 
 	<name>sys-redis-api</name>
@@ -17,7 +17,7 @@
 		<mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
 		<munit.version>3.4.0</munit.version>
 
-		<environment>dev</environment>
+		<environment>Sandbox</environment>
 		<targetName>Cloudhub-US-East-2</targetName>
 		<muleVersion>4.9.6</muleVersion>
 
@@ -54,7 +54,7 @@
 							<secure.key>${secure.key}</secure.key>
 						</secureProperties>
 					</cloudhub2Deployment>
-					<classifier>mule-application</classifier>
+					<classifier>---- select project type ----</classifier>
 				</configuration>
 			</plugin>
 			<plugin>
